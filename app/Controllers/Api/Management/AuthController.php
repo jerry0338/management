@@ -1,0 +1,272 @@
+<?php
+
+namespace App\Controllers\Api\Management;
+
+use App\Controllers\BaseController;
+
+use App\Models\{Management, ManagementType};
+use CodeIgniter\API\ResponseTrait;
+use CodeIgniter\HTTP\ResponseInterface;
+use \Firebase\JWT\JWT;
+
+class AuthController extends BaseController
+{
+    use ResponseTrait;
+
+    public function register()
+    {
+        $rules = [
+            'management_type_id' => ['rules' => 'required'],
+            'first_name' => ['rules' => 'required|min_length[3]|max_length[255]'],
+            'last_name' => ['rules' => 'required|min_length[3]|max_length[255]'],
+            'mobile_number' => ['rules' => 'required|min_length[10]|max_length[10]'],
+            'title'  => ['rules' => 'required'],
+            'email' => ['rules' => 'required|min_length[4]|max_length[255]|valid_email|is_unique[management.email]'],
+            'password' => ['rules' => 'required|min_length[8]|max_length[255]']
+        ];
+
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+
+            helper('text');
+
+            $qr_key = random_string('alnum', 16);
+
+            $model = new Management();
+            $data = [
+                'management_type_id'       => $body->management_type_id,
+                'first_name'    => $body->first_name,
+                'last_name'     => $body->last_name,
+                'mobile_number' => $body->mobile_number,
+                'email'         => $body->email,
+                'title'         => $body->title,
+                'password'      => password_hash($body->password, PASSWORD_DEFAULT),
+                'unique_key'    => $qr_key,
+                'latitude'      => $body->latitude ?? '',
+                'longitude'     => $body->longitude ?? '',
+            ];
+            if($model->save($data)){
+                return $this->respond(['status' => 1, 'message' => 'Management has been registered.'], 200);
+            }else{
+                return $this->respond(['status' => 0,'message' => 'Management not registered.'], 200);
+            }
+
+            
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+    
+    public function emailCheck()
+    {
+
+        $rules = [
+            'email' => ['rules' => 'required|valid_email']
+        ];
+
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+
+            helper('text');
+            $managementModel = new Management();
+            
+            $management = $managementModel->where('email', $body->email)->first();
+
+            if (is_null($management)) {
+                return $this->respond(['status' => 1,'message' => 'Email is available.'], 200);
+            }else{
+                return $this->respond(['status' => 0,'message' => 'Email not available.'], 200);
+            } 
+
+            
+        } else {
+            return $this->respond(['status' => 0,'message' => 'Invalid Inputs'], 200);
+        }
+    }
+    
+    public function login()
+    {
+
+        $rules = [
+            'email' => ['rules' => 'required|valid_email'],
+            'password' => ['rules' => 'required'],
+        ];
+
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+
+            $managementModel = new Management();
+            $managementTypeModel = new ManagementType();
+
+            $email = $body->email;
+            $password = $body->password;
+
+            $management = $managementModel->where('email', $email)->first();
+
+            if (is_null($management)) {
+                return $this->respond(['status' => 0,'message' => 'Invalid email or password.'], 200);
+            }
+
+            $pwd_verify = password_verify($password, $management['password']);
+
+            if (!$pwd_verify) {
+                return $this->respond(['status' => 0,'message' => 'Invalid email or password.'], 200);
+            }
+
+            $key = getenv('JWT_SECRET');
+            $iat = time(); // current timestamp value
+            $exp = $iat + 36000;
+
+            $managementType = $managementTypeModel->where('id', $management['management_type_id'])->select(['id as management_type_id', 'type as management_type'])->first();
+
+            $data = [
+                "management_id" => $management['id'],
+                "unique_key" => $management['unique_key'],
+                "email" => $management['email'],
+                "first_name" => $management['first_name'],
+                "last_name" => $management['last_name'],
+                "title" => $management['title'],
+                "mobile_number" => $management['mobile_number'],
+                "management_type" => $managementType,
+            ];
+
+            $payload = array(
+                "iss" => "Issuer of the JWT",
+                "aud" => "Audience that the JWT",
+                "sub" => "Subject of the JWT",
+                "iat" => $iat, //Time the JWT issued at
+                "exp" => $exp, // Expiration time of token
+                "data" => $data
+            );
+
+            $token = JWT::encode($payload, $key, 'HS256');
+
+            $response = [
+                'status' => 1,
+                'message' => 'Login Succesful',
+                'token' => $token,
+                'data' => $data,
+            ];
+
+            return $this->respond($response, 200);
+        } else {
+            $response = [
+                'status' => 0,
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+    
+    public function forgotPassword()
+    {
+
+        $rules = [
+            'email' => ['rules' => 'required|valid_email']
+        ];
+
+        $bodyData = json_decode($this->request->getBody());
+        $db = \Config\Database::connect();
+        if ($this->validate($rules)) {
+            $managementModel = new Management();
+            $management = $managementModel->where('email', $bodyData->email)->first();
+            if ($management) {
+                $code = rand(100000,999999);
+                $body = "<p>UVisitor account</p>";
+                $body .= "<h2>Password reset code</h2>";
+                $body .= "<p>Please use this code to reset the password for the UVisitor account ".$management['email'].".</p>";
+                $body .= "<h3>Here is your code:'".$code."'</h3>";
+                $body .= "<p></p>";
+                $body .= "<p>Thanks,</p>";
+                $body .= "<p>The UVisitor account team</p>";
+                $headers = "From: UVisitor<no-reply@uvisitor.com>\r\n";
+                $headers .= "Reply-To: UVisitor<no-reply@uvisitor.com>\r\n";
+                $headers .= "MIME-Version: 1.0\r\n";
+                $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+                @mail(strtolower($management['email']), 'UVisitor Password reset code', $body, $headers, '-f no-reply@uvisitor.com');
+                
+                $managementUpdate = $db->table('management');
+                $managementUpdate = $managementUpdate->where('email', $bodyData->email);
+                $data = [
+                    'code'  => $code
+                ];
+                $managementUpdate->update($data);
+                        
+                return $this->respond(['status' => 1,'message' => 'Reset Code sended.', 'code' => $code], 200);
+            }else{
+                return $this->respond(['status' => 0,'message' => 'Email not available.'], 200);
+            } 
+
+            
+        } else {
+            return $this->respond(['status' => 0,'message' => 'Invalid Inputs'], 200);
+        }
+    }
+    
+    public function codeCheck()
+    {
+        $rules = [
+            'email' => ['rules' => 'required|valid_email'],
+            'code' => ['rules' => 'required|min_length[6]|max_length[6]']
+        ];
+
+        $body = json_decode($this->request->getBody());
+        if ($this->validate($rules)) {
+            $managementModel = new Management();
+            $management = $managementModel->where('email', $body->email)->first();
+            if ($management) {
+                if($management['code'] == $body->code){
+                    return $this->respond(['status' => 1,'message' => 'Code is match.'], 200);
+                }else{
+                    return $this->respond(['status' => 0,'message' => 'Code is wrong.'], 200);
+                }
+            }else{
+                return $this->respond(['status' => 0,'message' => 'Email not available.'], 200);
+            } 
+        } else {
+            return $this->respond(['status' => 0,'message' => 'Invalid Inputs'], 200);
+        }
+    }
+    
+    public function updatePassword()
+    {
+        $rules = [
+            'email' => ['rules' => 'required|valid_email'],
+            'password' => ['rules' => 'required|min_length[8]|max_length[255]']
+        ];
+
+        $body = json_decode($this->request->getBody());
+        $db = \Config\Database::connect();
+        if ($this->validate($rules)) {
+            $managementModel = new Management();
+            $management = $managementModel->where('email', $body->email)->first();
+
+            if ($management) {
+                $managementUpdate = $db->table('management');
+                $managementUpdate = $managementUpdate->where('email', $body->email);
+                $data = [
+                    'password'  => password_hash($body->password, PASSWORD_DEFAULT)
+                ];
+                if($managementUpdate->update($data)){
+                    return $this->respond(['status' => 1,'message' => 'Password updated.'], 200);
+                }else{
+                    return $this->respond(['status' => 0,'message' => 'Password not update.'], 200);
+                }
+                
+            }else{
+                return $this->respond(['status' => 0,'message' => 'Email not available.'], 200);
+            } 
+
+            
+        } else {
+            return $this->respond(['status' => 0,'message' => 'Invalid Inputs'], 200);
+        }
+    }
+}
