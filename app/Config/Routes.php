@@ -7,6 +7,8 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 
+$routes->add('Generate/generate_pdf', 'Generate::generate_pdf');
+
 $routes->group("api", function ($routes) {
 
     $routes->group("list", ['namespace' => 'App\Controllers\Api'], static function ($routes) {
