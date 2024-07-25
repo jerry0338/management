@@ -68,7 +68,6 @@ $routes->group("api", function ($routes) {
             $routes->post("edit", "QueationController::edit");
             $routes->post("delete", "QueationController::delete");
             $routes->post("list", "QueationController::list");
-            
         });
         
         $routes->group("visitor", function ($routes) {
@@ -79,8 +78,12 @@ $routes->group("api", function ($routes) {
             $routes->post("records", "VisitorController::records");
             $routes->post("checkoutNumber", "VisitorController::checkoutNumber");
             $routes->post("checkoutKey", "VisitorController::checkoutKey");
-            
         });
+        
+        $routes->group("report", function ($routes) {
+            $routes->post("curerntVisitor", "ReportController::curerntVisitor");
+        });
+
     });
 
     $routes->group("visitor", ['namespace' => 'App\Controllers\Api\Visitor'], static function ($routes) {
