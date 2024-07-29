@@ -292,7 +292,7 @@ class ReportController extends BaseController
             }
 
             if(!empty($body->visitor_id)){
-                $visitor_records_builder->whereIn('visitor_id', $body->visitor_id);
+                $visitor_records_builder->where('visitor_id', $body->visitor_id);
             }
             
             $visitor_records_builder->where('management_id', $body->management_id);
