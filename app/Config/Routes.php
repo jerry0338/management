@@ -82,6 +82,9 @@ $routes->group("api", function ($routes) {
         
         $routes->group("report", function ($routes) {
             $routes->post("curerntVisitor", "ReportController::curerntVisitor");
+            $routes->post("dailyData", "ReportController::dailyData");
+            $routes->post("weeklyData", "ReportController::weeklyData");
+            $routes->post("filterData", "ReportController::filterData");
         });
 
     });
