@@ -281,7 +281,7 @@ class ReportController extends BaseController
             if(!empty($body->visitor_type_id)){
                 $formDate = date('Y-m-d', strtotime($body->visitor_type_id));
 
-                $  = $db->table('visitors');
+                $visitor_builder = $db->table('visitors'); 
                 $visitor_builder->where('visitor_type_id', $body->visitor_type_id);
                 $visitor_builder->limit(1);
                 $visitor_builder = $visitor_builder->get();
