@@ -75,7 +75,7 @@ class ReportController extends BaseController
                 $file_path = $path.'/'.$filename;
                 // Write the file using native PHP file handling
                 file_put_contents($file_path, $dompdf->output());
-                return $this->respond(['status' => 1, 'message' => 'Current visitor report', 'url' => $file_path], 200);
+                return $this->respond(['status' => 1, 'message' => 'Current visitor report', 'url' => base_url($file_path)], 200);
             }else{
                 return $this->respond(['status' => 0,'message' => 'No active visitor found', 'data' => array()], 200);
             }
