@@ -78,3 +78,130 @@ WARNING - 2024-07-29 07:46:23 --> [DEPRECATED] Creation of dynamic property App\
  5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
  6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
  7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:15:19 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:47:11 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:47:51 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:47:58 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:48:08 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:48:28 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:49:10 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-07-29 10:49:10 --> ErrorException: Undefined variable $visitor_records_builder
+[Method: POST, Route: api/management/report/filterData]
+in APPPATH\Controllers\Api\Management\ReportController.php on line 291.
+ 1 APPPATH\Controllers\Api\Management\ReportController.php(291): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $visitor_records_builder', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\ReportController.php', 291)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\ReportController->filterData()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\ReportController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:49:24 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-07-29 10:49:24 --> ErrorException: Undefined variable $ids
+[Method: POST, Route: api/management/report/filterData]
+in APPPATH\Controllers\Api\Management\ReportController.php on line 291.
+ 1 APPPATH\Controllers\Api\Management\ReportController.php(291): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $ids', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\ReportController.php', 291)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\ReportController->filterData()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\ReportController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:49:36 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-07-29 10:49:37 --> ErrorException: Array to string conversion
+[Method: POST, Route: api/management/report/filterData]
+in SYSTEMPATH\Database\Query.php on line 331.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\management\\vendor\\codeigniter4\\framework\\system\\Database\\Query.php', 331)
+ 2 SYSTEMPATH\Database\Query.php(331): implode(',', [...])
+ 3 SYSTEMPATH\Database\Query.php(312): CodeIgniter\Database\Query->matchNamedBinds('SELECT *
+FROM `visitor_records`
+WHERE `visitor_id` IN :visitor_id:
+AND `management_id` = :management_id:
+ORDER BY `created_at` DESC', [...])
+ 4 SYSTEMPATH\Database\Query.php(163): CodeIgniter\Database\Query->compileBinds()
+ 5 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\Query->getQuery()
+ 6 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT *
+FROM `visitor_records`
+WHERE `visitor_id` IN :visitor_id:
+AND `management_id` = :management_id:
+ORDER BY `created_at` DESC', [...], false)
+ 7 APPPATH\Controllers\Api\Management\ReportController.php(295): CodeIgniter\Database\BaseBuilder->get()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\ReportController->filterData()
+ 9 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\ReportController))
+10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-07-29 10:51:36 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
