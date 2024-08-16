@@ -85,6 +85,10 @@ $routes->group("api", function ($routes) {
             $routes->post("dailyData", "ReportController::dailyData");
             $routes->post("weeklyData", "ReportController::weeklyData");
             $routes->post("filterData", "ReportController::filterData");
+            $routes->post("keyAvalible", "ReportController::keyAvalible");
+            $routes->post("keyOnLoan", "ReportController::keyOnLoan");
+            $routes->post("allKeyList", "ReportController::allKeyList");
+            $routes->post("endOfDayKey", "ReportController::endOfDayKey");
         });
 
     });
