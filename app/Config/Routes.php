@@ -90,6 +90,11 @@ $routes->group("api", function ($routes) {
             $routes->post("allKeyList", "ReportController::allKeyList");
             $routes->post("endOfDayKey", "ReportController::endOfDayKey");
         });
+        
+        $routes->group("alert", function ($routes) {
+            $routes->post("alertData", "AlertController::alertData");
+            $routes->post("updateAlertData", "AlertController::updateAlertData");
+        });
 
     });
 
