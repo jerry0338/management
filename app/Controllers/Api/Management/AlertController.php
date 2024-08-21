@@ -4,7 +4,7 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{ManagementAlert};
+use App\Models\{ManagementAlert, ManagementAlertData};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -28,13 +28,15 @@ class AlertController extends BaseController
                     $management = new ManagementAlert();
                     $data = [
                         'management_id' => $body->management_id,
+                        'slug' => 'notify_when_visitor_sign_in',
+                        'title' => 'Notify When Visitor Sign IN',
                     ];
                     $management->insert($data);  
 
-                    $managementAlert = new ManagementAlert();
-                    $managementAlert = $managementAlert->where('management_id', $body->management_id)->first();
                 }
-                return $this->respond(['status' => 1,'message' => 'Management Alert Data', 'data' => $managementAlert], 200);
+
+                $alertData = $this->singleAlertData($body->management_id);
+                return $this->respond(['status' => 1,'message' => 'Management Alert Data', 'data' => $alertData], 200);
             } catch (Exception $exception) {
                 return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
             } 
@@ -101,4 +103,9 @@ class AlertController extends BaseController
             return $this->fail($response, 409);
         }
     } 
+
+    public function singleAlertData($management_id)
+    {
+        return $management_id;
+    }
 }

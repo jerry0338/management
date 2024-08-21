@@ -4,19 +4,22 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ManagementAlert extends Model
+class ManagementAlertData extends Model
 {
-    protected $table            = 'management_alert';
+    protected $table            = 'management_alert_data';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'management_id',
-        'slug',
-        'title',
-        'status',
+        'alert_id',
+        'set_alert_time',
+        'method',
+        'visitor',
+        'admin_staff',
+        'whome_visiting',
+        'turn_alert',
         'created_at',
         'updated_at',
     ];
