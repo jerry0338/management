@@ -4,7 +4,7 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{ManagementAlert, ManagementAlertData};
+use App\Models\{ManagementAlert};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -25,14 +25,36 @@ class AlertController extends BaseController
                 $managementAlert = $managementAlert->where('management_id', $body->management_id)->first();
                 if (is_null($managementAlert)) {
 
-                    $management = new ManagementAlert();
-                    $data = [
-                        'management_id' => $body->management_id,
-                        'slug' => 'notify_when_visitor_sign_in',
-                        'title' => 'Notify When Visitor Sign IN',
+                    $alerts = [
+                        [
+                            'slug' => 'notify_when_visitor_sign_in',
+                            'title' => 'Notify When Visitor Sign IN',
+                        ],
+                        [
+                            'slug' => 'notify_when_visitor_sign_out',
+                            'title' => 'Notify When Visitor Sign OUT',
+                        ],
+                        [
+                            'slug' => 'notify_when_visitor_sign_out_not_return_keys',
+                            'title' => 'Notify When Visitor Sign OUT not Return Keys',
+                        ],
+                        [
+                            'slug' => 'visitor_still_on_site_after',
+                            'title' => 'Visitor Still On Site After',
+                        ],
                     ];
-                    $management->insert($data);  
-
+                    
+                    foreach ($alerts as $alert) {
+                        $management = new ManagementAlert();
+                        $data = [
+                            'management_id' => $body->management_id,
+                            'slug' => $alert['slug'],
+                            'title' => $alert['title'],
+                            'status' => '1',
+                        ];
+                        $management->insert($data); 
+                        $inserted_id = $management->insertID();
+                    }
                 }
 
                 $alertData = $this->singleAlertData($body->management_id);
@@ -52,41 +74,26 @@ class AlertController extends BaseController
     public function updateAlertData()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'alert_id' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());
-
+        $db = \Config\Database::connect();
         if ($this->validate($rules)) {
             try {
                 $ManagementAlert = new ManagementAlert();
-                $ManagementAlert = $ManagementAlert->where('management_id', $body->management_id)->first();
-                if (is_null($management)) {
+                $ManagementAlert = $ManagementAlert->where('id', $body->alert_id)->first();
+                if (is_null($ManagementAlert)) {
                     return $this->respond(['status' => 0, 'message' => 'Management Alert Not available', 'data' => array()], 200);
                 }else{
                     $managementAlertUpdate = $db->table('management_alert');
-                    $managementAlertUpdate = $managementAlertUpdate->where('management_id', $body->management_id);
+                    $managementAlertUpdate = $managementAlertUpdate->where('id', $body->alert_id);
                     $data = [
-                        'still_on_site_alert'  => $body->still_on_site_alert,
-                        'sign_in_method'  => $body->sign_in_method,
-                        'sign_out_method'  => $body->sign_out_method,
-                        'sign_out_knr_method'  => $body->sign_out_knr_method,
-                        'still_on_site_method'  => $body->still_on_site_method,
-                        'sign_in_visitor'  => $body->sign_in_visitor,
-                        'sign_out_visitor'  => $body->sign_out_visitor,
-                        'sign_out_knr_visitor'  => $body->sign_out_knr_visitor,
-                        'still_on_site_visitor'  => $body->still_on_site_visitor,
-                        'sign_in_staff'  => $body->sign_in_staff,
-                        'sign_out_staff'  => $body->sign_out_staff,
-                        'sign_out_knr_staff'  => $body->sign_out_knr_staff,
-                        'still_on_site_staff'  => $body->still_on_site_staff,
-                        'sign_in_wvisiting'  => $body->sign_in_wvisiting,
-                        'sign_out_wvisiting'  => $body->sign_out_wvisiting,
-                        'sign_out_knr_wvisiting'  => $body->sign_out_knr_wvisiting,
-                        'still_on_site_wvisiting'  => $body->still_on_site_wvisiting,
-                        'sign_in_status'  => $body->sign_in_status,
-                        'sign_out_status'  => $body->sign_out_status,
-                        'still_on_site_status'  => $body->still_on_site_status,
-                        'sign_out_status'  => $body->sign_out_status,
+                        'set_alert_time'  => $body->set_alert_time,
+                        'method'  => $body->method,
+                        'visitor'  => $body->visitor,
+                        'admin_staff'  => $body->admin_staff,
+                        'whome_visiting'  => $body->whome_visiting,
+                        'turn_alert'  => $body->turn_alert,
                     ];
                     $managementAlertUpdate->update($data);
 
@@ -106,6 +113,23 @@ class AlertController extends BaseController
 
     public function singleAlertData($management_id)
     {
-        return $management_id;
+        $managementAlert = new ManagementAlert();
+        $managementAlerts = $managementAlert->where('management_id', $management_id)->where('status', 1)->get();
+        $data = array(); $d=0;
+        if ($results = $managementAlerts->getResult()) {
+            foreach ($results as $key => $result) {
+                $data[$d]['alert_id'] = $result->id;
+                $data[$d]['slug'] = $result->slug;
+                $data[$d]['title'] = $result->title;
+                $data[$d]['set_alert_time'] = $result->set_alert_time;
+                $data[$d]['method'] = $result->method;
+                $data[$d]['visitor'] = $result->visitor;
+                $data[$d]['admin_staff'] = $result->admin_staff;
+                $data[$d]['whome_visiting'] = $result->whome_visiting;
+                $data[$d]['turn_alert'] = $result->turn_alert;
+                $d++;
+            }
+        }
+        return $data;
     }
 }
