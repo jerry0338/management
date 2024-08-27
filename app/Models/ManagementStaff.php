@@ -4,9 +4,9 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class ManagementPerson extends Model
+class ManagementStaff extends Model
 {
-    protected $table            = 'management_person';
+    protected $table            = 'management_staff';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
@@ -14,9 +14,11 @@ class ManagementPerson extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'management_id',
+        'unique_key',
         'name',
         'mobile_number',
         'email',
+        'password',
         'role',
         'created_at',
         'updated_at',

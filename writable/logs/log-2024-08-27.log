@@ -1,0 +1,41 @@
+CRITICAL - 2024-08-27 04:34:06 --> Error: Call to undefined function App\Controllers\Api\Management\random_string()
+[Method: POST, Route: api/management/staff/add]
+in APPPATH\Controllers\Api\Management\StaffController.php on line 30.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffController->add()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffController))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-08-27 04:34:24 --> Error: Call to undefined function App\Controllers\Api\Management\random_string()
+[Method: POST, Route: api/management/staff/add]
+in APPPATH\Controllers\Api\Management\StaffController.php on line 30.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffController->add()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffController))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-08-27 04:39:59 --> Error: Call to undefined function App\Controllers\Api\Management\random_string()
+[Method: POST, Route: api/management/staff/add]
+in APPPATH\Controllers\Api\Management\StaffController.php on line 31.
+ 1 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffController->add()
+ 2 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffController))
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-08-27 04:50:33 --> ErrorException: Undefined variable $rules
+[Method: POST, Route: api/management/alert/updateAlertData]
+in APPPATH\Controllers\Api\Management\AlertController.php on line 82.
+ 1 APPPATH\Controllers\Api\Management\AlertController.php(82): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $rules', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\AlertController.php', 82)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\AlertController->updateAlertData()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\AlertController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')

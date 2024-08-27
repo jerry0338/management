@@ -4,7 +4,7 @@ require(APPPATH . "Libraries/Twilio/autoload.php");
 
 use App\Controllers\BaseController;
 
-use App\Models\{Management, ManagementPerson, Visitor, UserVisitor};
+use App\Models\{Management, ManagementStaff, Visitor, UserVisitor};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 use Twilio\Rest\Client;
@@ -24,10 +24,10 @@ class MessagingController extends BaseController
         if ($this->validate($rules)) {
             try {
                 
-                $managementPerson = new ManagementPerson();
-                $managementPersonData = $managementPerson->where('id', $body->person_id)->first();
-                if($managementPersonData  || 1 > 0){
-                    // $mobile_number = $managementPersonData['mobile_number'];
+                $managementStaff = new ManagementStaff();
+                $managementStaffData = $managementStaff->where('id', $body->person_id)->first();
+                if($managementStaffData  || 1 > 0){
+                    // $mobile_number = $managementStaffData['mobile_number'];
                     
                     $visitor = new Visitor();
                     $visitorData = $visitor->where('id', $body->visitor_id)->first();

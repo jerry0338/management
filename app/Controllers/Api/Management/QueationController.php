@@ -4,7 +4,7 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{Management, ManagementPerson, VisitorRecords, ManagementKey, ManagementQuestion};
+use App\Models\{Management, ManagementStaff, VisitorRecords, ManagementKey, ManagementQuestion};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 

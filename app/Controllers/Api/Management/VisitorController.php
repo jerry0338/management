@@ -134,7 +134,7 @@ class VisitorController extends BaseController
                             if($getVisitorRecord){
                                 $person_id = $getVisitorRecord->person_id;
                                 
-                                $person = $db->table('management_person');
+                                $person = $db->table('');
                                 $person->where('id', $person_id);
                                 $person->limit(1);
                                 $getPerson = $person->get();
@@ -219,7 +219,7 @@ class VisitorController extends BaseController
                         $data[$d]['type_name'] = $visitorTypeRecords->type;
                         
                         $person_id = 0; $person_name = "others";   
-                        $person = $db->table('management_person');
+                        $person = $db->table('management_staff');
                         $person->where('id', $result->person_id);
                         $person->limit(1);
                         $getPerson = $person->get();

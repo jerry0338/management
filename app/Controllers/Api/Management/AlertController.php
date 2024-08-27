@@ -42,6 +42,10 @@ class AlertController extends BaseController
                             'slug' => 'visitor_still_on_site_after',
                             'title' => 'Visitor Still On Site After',
                         ],
+                        [
+                            'slug' => 'evacuation_alert',
+                            'title' => 'Evacuation Alert',
+                        ],
                     ];
                     
                     foreach ($alerts as $alert) {
@@ -73,18 +77,13 @@ class AlertController extends BaseController
     
     public function updateAlertData()
     {
-        $rules = [
-            'alert_id' => ['rules' => 'required']
-        ];
-        $body = json_decode($this->request->getBody());
+        $bodys = json_decode($this->request->getBody());
         $db = \Config\Database::connect();
-        if ($this->validate($rules)) {
-            try {
+        try {
+            foreach($bodys as $body){
                 $ManagementAlert = new ManagementAlert();
                 $ManagementAlert = $ManagementAlert->where('id', $body->alert_id)->first();
-                if (is_null($ManagementAlert)) {
-                    return $this->respond(['status' => 0, 'message' => 'Management Alert Not available', 'data' => array()], 200);
-                }else{
+                if (!is_null($ManagementAlert)) {
                     $managementAlertUpdate = $db->table('management_alert');
                     $managementAlertUpdate = $managementAlertUpdate->where('id', $body->alert_id);
                     $data = [
@@ -96,40 +95,11 @@ class AlertController extends BaseController
                         'turn_alert'  => $body->turn_alert,
                     ];
                     $managementAlertUpdate->update($data);
-
-                    return $this->respond(['status' => 1,'message' => 'Management Alert updated'], 200);
                 }
-            } catch (Exception $exception) {
-                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
-            } 
-        } else {
-            $response = [
-                'errors' => $this->validator->getErrors(),
-                'message' => 'Invalid Inputs'
-            ];
-            return $this->fail($response, 409);
-        }
-    } 
-
-    public function singleAlertData($management_id)
-    {
-        $managementAlert = new ManagementAlert();
-        $managementAlerts = $managementAlert->where('management_id', $management_id)->where('status', 1)->get();
-        $data = array(); $d=0;
-        if ($results = $managementAlerts->getResult()) {
-            foreach ($results as $key => $result) {
-                $data[$d]['alert_id'] = $result->id;
-                $data[$d]['slug'] = $result->slug;
-                $data[$d]['title'] = $result->title;
-                $data[$d]['set_alert_time'] = $result->set_alert_time;
-                $data[$d]['method'] = $result->method;
-                $data[$d]['visitor'] = $result->visitor;
-                $data[$d]['admin_staff'] = $result->admin_staff;
-                $data[$d]['whome_visiting'] = $result->whome_visiting;
-                $data[$d]['turn_alert'] = $result->turn_alert;
-                $d++;
             }
-        }
-        return $data;
-    }
+            return $this->respond(['status' => 1,'message' => 'Management Alert updated'], 200);
+        } catch (Exception $exception) {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+        } 
+    } 
 }

@@ -4,7 +4,7 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{Management, ManagementPerson, VisitorRecords, UserVisitor};
+use App\Models\{Management, ManagementStaff, VisitorRecords, UserVisitor};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -81,10 +81,10 @@ class ManagementController extends BaseController
         if ($this->validate($rules)) {
             try {
                 helper('text');
-                $managementPerson = new ManagementPerson();
-                $managementPerson = $managementPerson->where('id', $body->management_id)->get();
+                $managementStaff = new ManagementStaff();
+                $managementStaff = $managementStaff->where('id', $body->management_id)->get();
                 $data = array(); $d=0;
-                if ($results = $managementPerson->getResult()) {
+                if ($results = $managementStaff->getResult()) {
                     foreach ($results as $key => $result) {
                         $data[$d]['person_id'] = $result->id;
                         $data[$d]['name'] = $result->name;

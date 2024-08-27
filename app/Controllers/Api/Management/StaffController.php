@@ -4,11 +4,10 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{Management, ManagementPerson, VisitorRecords, VisitorRecordKeys};
+use App\Models\{Management, ManagementStaff, VisitorRecords, VisitorRecordKeys};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
-
-
+use \Firebase\JWT\JWT;
 
 class StaffController extends BaseController
 {
@@ -26,19 +25,26 @@ class StaffController extends BaseController
         $body = json_decode($this->request->getBody());
         if ($this->validate($rules)) {
             try {
-                $managementPerson = new ManagementPerson();
-                $management = $managementPerson->where('management_id', $body->management_id)->where('email', $body->email)->first();
+                $managementStaff = new ManagementStaff();
+                $management = $managementStaff->where('management_id', $body->management_id)->where('email', $body->email)->first();
                 if (is_null($management)) {
-                    $managementPerson = new ManagementPerson();
+                    helper('text'); 
+                    $qr_key = random_string('alnum', 16);
+
+                    $password = $body->password ?? '123456';
+
+                    $managementStaff = new ManagementStaff();
                     $data = [
                         'management_id' => $body->management_id,
                         'name'          => $body->name,
                         'mobile_number' => $body->mobile_number,
                         'email'         => $body->email,
+                        'password'      => password_hash($password, PASSWORD_DEFAULT),
+                        'unique_key'    => $qr_key,
                         'role'          => $body->role
                     ];
                 
-                    $managementPerson->insert($data);
+                    $managementStaff->insert($data);
                     return $this->respond(['status' => 1, 'message' => 'Staff added successfully'], 200);
                 }else{
                     return $this->respond(['status' => 0,'message' => 'Staff already register.'], 200);
@@ -70,12 +76,12 @@ class StaffController extends BaseController
 
         if ($this->validate($rules)) {
             try {
-                $managementPerson = new ManagementPerson();
-                $management = $managementPerson->where('id NOT LIKE', $body->management_staff_id)->where('management_id', $body->management_id)->where('email', $body->email)->first();
+                $managementStaff = new ManagementStaff();
+                $management = $managementStaff->where('id NOT LIKE', $body->management_staff_id)->where('management_id', $body->management_id)->where('email', $body->email)->first();
                 if (is_null($management)) {
                     $db = \Config\Database::connect();
-                    $management_Person = $db->table('management_person');
-                    $managementPerson = $management_Person->where('id', $body->management_staff_id);
+                    $management_staff = $db->table('management_staff');
+                    $managementStaff = $management_staff->where('id', $body->management_staff_id);
                     $data = [
                         'name'          => $body->name,
                         'mobile_number' => $body->mobile_number,
@@ -83,7 +89,7 @@ class StaffController extends BaseController
                         'role'          => $body->role
                     ];
     
-                    if($managementPerson->update($data)){
+                    if($managementStaff->update($data)){
                         return $this->respond(['status' => 1, 'message' => 'Staff updated successfully'], 200);
                     }else{
                         return $this->respond(['status' => 0, 'message' => 'Staff not updat.please, try again.'], 200);
@@ -116,12 +122,12 @@ class StaffController extends BaseController
             try {
              
                 $db = \Config\Database::connect();
-                $managementPerson = $db->table('management_person');
+                $managementStaff = $db->table('management_staff');
                 
                 // Assuming $id contains the ID of the row you want to delete
-                $managementPerson->where('management_id', $body->management_id);
-                $managementPerson->where('id', $body->management_staff_id);
-                if ($managementPerson->delete()){
+                $managementStaff->where('management_id', $body->management_id);
+                $managementStaff->where('id', $body->management_staff_id);
+                if ($managementStaff->delete()){
                     return $this->respond(['status' => 1, 'message' => 'Staff deleted.'], 200);
                 }else{
                     return $this->respond(['status' => 0, 'message' => 'Staff not delete.please, try again.'], 200);
@@ -149,10 +155,10 @@ class StaffController extends BaseController
 
         if ($this->validate($rules)) {
             try {
-                $managementPerson = new ManagementPerson();
-                $managementPerson = $managementPerson->where('management_id', $body->management_id)->get();
+                $managementStaff = new ManagementStaff();
+                $managementStaff = $managementStaff->where('management_id', $body->management_id)->get();
                 $data = array(); $d=0;
-                if ($results = $managementPerson->getResult()) {
+                if ($results = $managementStaff->getResult()) {
                     foreach ($results as $key => $result) {
                         $data[$d]['management_staff_id'] = $result->id;
                         $data[$d]['name'] = $result->name;
