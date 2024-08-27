@@ -46,6 +46,10 @@ class AlertController extends BaseController
                             'slug' => 'evacuation_alert',
                             'title' => 'Evacuation Alert',
                         ],
+                        [
+                            'slug' => 'roll_call_alert',
+                            'title' => 'Roll call Alert',
+                        ],
                     ];
                     
                     foreach ($alerts as $alert) {
@@ -102,4 +106,26 @@ class AlertController extends BaseController
             return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
         } 
     } 
+
+    public function singleAlertData($management_id)
+    {
+        $managementAlert = new ManagementAlert();
+        $managementAlerts = $managementAlert->where('management_id', $management_id)->where('status', 1)->get();
+        $data = array(); $d=0;
+        if ($results = $managementAlerts->getResult()) {
+            foreach ($results as $key => $result) {
+                $data[$d]['alert_id'] = $result->id;
+                $data[$d]['slug'] = $result->slug;
+                $data[$d]['title'] = $result->title;
+                $data[$d]['set_alert_time'] = $result->set_alert_time;
+                $data[$d]['method'] = $result->method;
+                $data[$d]['visitor'] = $result->visitor;
+                $data[$d]['admin_staff'] = $result->admin_staff;
+                $data[$d]['whome_visiting'] = $result->whome_visiting;
+                $data[$d]['turn_alert'] = $result->turn_alert;
+                $d++;
+            }
+        }
+        return $data;
+    }
 }
