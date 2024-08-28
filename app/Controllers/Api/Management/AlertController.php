@@ -81,9 +81,10 @@ class AlertController extends BaseController
     
     public function updateAlertData()
     {
-        $bodys = json_decode($this->request->getBody());
+        $bodyData = json_decode($this->request->getBody());
         $db = \Config\Database::connect();
         try {
+            $bodys = $bodyData->data;
             foreach($bodys as $body){
                 $ManagementAlert = new ManagementAlert();
                 $ManagementAlert = $ManagementAlert->where('id', $body->alert_id)->first();

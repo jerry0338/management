@@ -4,7 +4,7 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{Management, ManagementType};
+use App\Models\{Management, ManagementType, ManagementLogin, ManagementStaff};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 use \Firebase\JWT\JWT;
@@ -64,27 +64,19 @@ class AuthController extends BaseController
     
     public function emailCheck()
     {
-
         $rules = [
             'email' => ['rules' => 'required|valid_email']
         ];
-
         $body = json_decode($this->request->getBody());
-
         if ($this->validate($rules)) {
-
             helper('text');
             $managementModel = new Management();
-            
             $management = $managementModel->where('email', $body->email)->first();
-
             if (is_null($management)) {
                 return $this->respond(['status' => 1,'message' => 'Email is available.'], 200);
             }else{
-                return $this->respond(['status' => 0,'message' => 'Email not available.'], 200);
-            } 
-
-            
+                return $this->respond(['status' => 0,'message' => 'Email already taken.'], 200);
+            }  
         } else {
             return $this->respond(['status' => 0,'message' => 'Invalid Inputs'], 200);
         }
@@ -104,6 +96,7 @@ class AuthController extends BaseController
 
             $managementModel = new Management();
             $managementTypeModel = new ManagementType();
+            $managementStaffModel = new ManagementStaff();
 
             $email = $body->email;
             $password = $body->password;
@@ -111,29 +104,63 @@ class AuthController extends BaseController
             $management = $managementModel->where('email', $email)->first();
 
             if (is_null($management)) {
-                return $this->respond(['status' => 0,'message' => 'Invalid email or password.'], 200);
+
+                $managementStaff = $managementStaffModel->where('email', $email)->first();
+                if (is_null($managementStaff)) {
+                    return $this->respond(['status' => 0,'message' => 'Invalid email or password.'], 200);
+                }else{
+                    $pwd_verify = password_verify($password, $managementStaff['password']);
+                    if (!$pwd_verify) {
+                        return $this->respond(['status' => 0,'message' => 'Invalid email or password.'], 200);
+                    }
+                    $management_id = $managementStaff['id'];
+                    $unique_key = $managementStaff['unique_key'];
+                    $email = $managementStaff['email'];
+                    $name = explode(' ', $managementStaff['name']);
+                    $first_name = $name[0];
+                    $last_name = $name[1];
+                    $managementData = $managementModel->where('id', $managementStaff['management_id'])->select(['title'])->first();
+                    $title = $managementData['title'];
+                    $mobile_number = $managementStaff['mobile_number'];
+                    $type = 'staff';
+                    $managementType = $managementTypeModel->where('type', $managementStaff['role'])->select(['id as management_type_id', 'type as management_type'])->first();
+
+                    $managementLoginModel = new ManagementLogin();
+                    $data = [
+                        'staff_id' => $management_id,
+                        'date'     => date('Y-m-d'),
+                        'time_in' => date('H:i:s')
+                    ];                    
+                    $managementLoginModel->insert($data);
+                }
+            }else{
+                $pwd_verify = password_verify($password, $management['password']);
+                if (!$pwd_verify) {
+                    return $this->respond(['status' => 0,'message' => 'Invalid email or password.'], 200);
+                }
+                $management_id = $management['id'];
+                $unique_key = $management['unique_key'];
+                $email = $management['email'];
+                $first_name = $management['first_name'];
+                $last_name = $management['last_name'];
+                $title = $management['title'];
+                $mobile_number = $management['mobile_number'];
+                $type = 'admin';
+                $managementType = $managementTypeModel->where('id', $management['management_type_id'])->select(['id as management_type_id', 'type as management_type'])->first();
             }
-
-            $pwd_verify = password_verify($password, $management['password']);
-
-            if (!$pwd_verify) {
-                return $this->respond(['status' => 0,'message' => 'Invalid email or password.'], 200);
-            }
-
             $key = getenv('JWT_SECRET');
             $iat = time(); // current timestamp value
             $exp = $iat + 36000;
 
-            $managementType = $managementTypeModel->where('id', $management['management_type_id'])->select(['id as management_type_id', 'type as management_type'])->first();
-
             $data = [
-                "management_id" => $management['id'],
-                "unique_key" => $management['unique_key'],
-                "email" => $management['email'],
-                "first_name" => $management['first_name'],
-                "last_name" => $management['last_name'],
-                "title" => $management['title'],
-                "mobile_number" => $management['mobile_number'],
+                "management_id" => $management_id,
+                "type" => $type,
+                "unique_key" => $unique_key,
+                "email" => $email,
+                "first_name" => $first_name,
+                "last_name" => $last_name,
+                "title" => $title,
+                "mobile_number" => $mobile_number,
                 "management_type" => $managementType,
             ];
 

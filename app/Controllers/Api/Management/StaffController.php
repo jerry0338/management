@@ -4,11 +4,11 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{Management, ManagementStaff, VisitorRecords, VisitorRecordKeys};
+use App\Models\{Management, ManagementStaff, VisitorRecords, VisitorRecordKeys, ManagementLogin};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 use \Firebase\JWT\JWT;
-
+use DateTime;
 class StaffController extends BaseController
 {
     use ResponseTrait;
@@ -25,30 +25,33 @@ class StaffController extends BaseController
         $body = json_decode($this->request->getBody());
         if ($this->validate($rules)) {
             try {
-                $managementStaff = new ManagementStaff();
-                $management = $managementStaff->where('management_id', $body->management_id)->where('email', $body->email)->first();
+                $managementModel = new Management();
+                $management = $managementModel->where('email', $body->email)->first();
                 if (is_null($management)) {
-                    helper('text'); 
-                    $qr_key = random_string('alnum', 16);
-
-                    $password = $body->password ?? '123456';
-
-                    $managementStaff = new ManagementStaff();
-                    $data = [
-                        'management_id' => $body->management_id,
-                        'name'          => $body->name,
-                        'mobile_number' => $body->mobile_number,
-                        'email'         => $body->email,
-                        'password'      => password_hash($password, PASSWORD_DEFAULT),
-                        'unique_key'    => $qr_key,
-                        'role'          => $body->role
-                    ];
-                
-                    $managementStaff->insert($data);
-                    return $this->respond(['status' => 1, 'message' => 'Staff added successfully'], 200);
+                    $managementStaffs = new ManagementStaff();
+                    $managementStaff = $managementStaffs->where('management_id', $body->management_id)->where('email', $body->email)->first();
+                    if (is_null($managementStaff)) {
+                        helper('text'); 
+                        $qr_key = random_string('alnum', 16);
+                        $password = $body->password ?? '123456';
+                        $managementStaff = new ManagementStaff();
+                        $data = [
+                            'management_id' => $body->management_id,
+                            'name'          => $body->name,
+                            'mobile_number' => $body->mobile_number,
+                            'email'         => $body->email,
+                            'password'      => password_hash($password, PASSWORD_DEFAULT),
+                            'unique_key'    => $qr_key,
+                            'role'          => $body->role
+                        ];                    
+                        $managementStaff->insert($data);
+                        return $this->respond(['status' => 1, 'message' => 'Staff added successfully'], 200);
+                    }else{
+                        return $this->respond(['status' => 0,'message' => 'Email already taken.'], 200);
+                    }
                 }else{
-                    return $this->respond(['status' => 0,'message' => 'Staff already register.'], 200);
-                }
+                    return $this->respond(['status' => 0,'message' => 'Email already taken.'], 200);
+                } 
             } catch (Exception $exception) {
                 return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
             } 
@@ -60,7 +63,6 @@ class StaffController extends BaseController
             return $this->fail($response, 409);
         }
     }
-    
     public function edit()
     {
         $rules = [
@@ -108,7 +110,6 @@ class StaffController extends BaseController
             return $this->fail($response, 409);
         }
     }
-    
     public function delete()
     {
         $rules = [
@@ -144,7 +145,6 @@ class StaffController extends BaseController
             return $this->fail($response, 409);
         }
     }
-    
     public function list()
     {
         $rules = [
@@ -176,6 +176,86 @@ class StaffController extends BaseController
                 }else{
                     return $this->respond(['status' => 0, 'message' => 'No Staff data found ', 'data' => array()], 200);
                 }
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+    public function uploadCsv()
+    {
+        $bodys = json_decode($this->request->getBody());
+        try {
+            foreach($bodys as $body){
+                $managementModel = new Management();
+                $management = $managementModel->where('email', $body->email)->first();
+                if (is_null($management)) {
+                    $managementStaffs = new ManagementStaff();
+                    $managementStaff = $managementStaffs->where('management_id', $body->management_id)->where('email', $body->email)->first();
+                    if (is_null($managementStaff)) {
+                        helper('text'); 
+                        $qr_key = random_string('alnum', 16);
+                        $password = $body->password ?? '123456';
+                        $managementStaff = new ManagementStaff();
+                        $data = [
+                            'management_id' => $body->management_id,
+                            'name'          => $body->name,
+                            'mobile_number' => $body->mobile_number,
+                            'email'         => $body->email,
+                            'password'      => password_hash($password, PASSWORD_DEFAULT),
+                            'unique_key'    => $qr_key,
+                            'role'          => $body->role
+                        ];                    
+                        $managementStaff->insert($data);
+                    }
+                }
+            }            
+            return $this->respond(['status' => 1, 'message' => 'Upload csv successfully'], 200);
+        } catch (Exception $exception) {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+        } 
+    }
+    public function signOut()
+    {
+        $rules = [
+            'management_id' => ['rules' => 'required']
+        ];
+        $body = json_decode($this->request->getBody());
+        if ($this->validate($rules)) {
+            try {
+                $managementLoginModel = new ManagementLogin();
+                $managementLogin = $managementLoginModel->where('staff_id', $body->management_id)->where('status', '0')->first();
+                if (!is_null($managementLogin)) {
+
+                    $time1 = $managementLogin['time_in']; 
+                    $time2 = date('H:i:s');
+                    $datetime1 = new DateTime($time1);
+                    $datetime2 = new DateTime($time2);
+                    $interval = $datetime1->diff($datetime2);
+                    $total_time = $interval->format('%h hours %i minutes');
+
+                    $db = \Config\Database::connect();
+                    $managementLoginUpdate = $db->table('management_login');
+                    $managementLoginUpdate = $managementLoginUpdate->where('id', $managementLogin['id']);
+                    $data = [
+                        'time_out'   => date('h:i:s'),
+                        'total_time' => $total_time,
+                        'status'     => 1
+                    ];
+    
+                    if($managementLoginUpdate->update($data)){
+                        return $this->respond(['status' => 1, 'message' => 'Staff signout successfully'], 200);
+                    }else{
+                        return $this->respond(['status' => 0, 'message' => 'Staff not signout.please, try again.'], 200);
+                    }
+                }else{
+                    return $this->respond(['status' => 0,'message' => 'Staff already signout.'], 200);
+                } 
             } catch (Exception $exception) {
                 return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
             } 
