@@ -267,4 +267,62 @@ class StaffController extends BaseController
             return $this->fail($response, 409);
         }
     }
+    
+    public function history()
+    {
+        $rules = [
+            'management_id' => ['rules' => 'required']
+        ];
+
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+            try {
+                $db = \Config\Database::connect();
+                $managementBuilder = $db->table('management_staff'); 
+                $managementBuilder->where('management_id', $body->management_id)
+                                ->groupBy('id')
+                                ->select('id');
+                $staffIds = $managementBuilder->get()->getResultArray();
+                if (!empty($staffIds)) {
+                    $managementLogin = new ManagementLogin();
+                    $managementLogin = $managementLogin->whereIn('staff_id', array_column($staffIds, 'id'))->orderBy('created_at','DESC')->get();
+                    $data = array(); $d=0;
+                    if ($results = $managementLogin->getResult()) {
+                        foreach ($results as $key => $result) {
+                            $managementStaff = new ManagementStaff();
+                            $staffData = $managementStaff->where('id', $result->staff_id)->first();
+                            
+                            $data[$d]['staff_id'] = $result->staff_id;
+                            $data[$d]['name'] = $staffData['name'];
+                            $data[$d]['mobile_number'] = $staffData['mobile_number'];
+                            $data[$d]['email'] = $staffData['email'];
+                            $data[$d]['date'] = $result->date;
+                            $data[$d]['time_in'] = $result->time_in;
+                            $data[$d]['time_out'] = $result->time_out;
+                            $data[$d]['total_time'] = $result->total_time;
+                            $data[$d]['created_at'] = $result->created_at;
+                            $d++;
+                        }
+                    }
+                    
+                    if(sizeof($data) > 0){
+                        return $this->respond(['status' => 1, 'message' => 'Staff data', 'data' => $data], 200);
+                    }else{
+                        return $this->respond(['status' => 0, 'message' => 'No Staff record found ', 'data' => array()], 200);
+                    }
+                }else{
+                    return $this->respond(['status' => 0, 'message' => 'No Staff record found ', 'data' => array()], 200);
+                }
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
 }

@@ -59,6 +59,7 @@ $routes->group("api", function ($routes) {
             $routes->post("list", "StaffController::list");
             $routes->post("uploadCsv", "StaffController::uploadCsv");
             $routes->post("signOut", "StaffController::signOut");
+            $routes->post("history", "StaffController::history");
         });
         
         $routes->group("message", function ($routes) {
@@ -91,6 +92,18 @@ $routes->group("api", function ($routes) {
             $routes->post("keyOnLoan", "ReportController::keyOnLoan");
             $routes->post("allKeyList", "ReportController::allKeyList");
             $routes->post("endOfDayKey", "ReportController::endOfDayKey");
+        });
+
+        $routes->group("staffReport", function ($routes) {
+            $routes->post("filterData", "StaffReportController::filterData");
+            $routes->post("currentWeekByName", "StaffReportController::currentWeekByName");
+            $routes->post("currentWeekByDate", "StaffReportController::currentWeekByDate");
+            $routes->post("currentMonthByName", "StaffReportController::currentMonthByName");
+            $routes->post("currentMonthByDate", "StaffReportController::currentMonthByDate");
+            $routes->post("lastWeekByName", "StaffReportController::lastWeekByName");
+            $routes->post("lastWeekByDate", "StaffReportController::lastWeekByDate");
+            $routes->post("lastMonthByName", "StaffReportController::lastMonthByName");
+            $routes->post("lastMonthByDate", "StaffReportController::lastMonthByDate");
         });
         
         $routes->group("alert", function ($routes) {
