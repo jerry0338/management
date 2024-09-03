@@ -36,6 +36,7 @@ $routes->group("api", function ($routes) {
             $routes->post("edit", "KeyController::edit");
             $routes->post("delete", "KeyController::delete");
             $routes->post("list", "KeyController::list");
+            $routes->post("list1", "KeyController::list1");
             $routes->post("history", "KeyController::history");
             $routes->post("assign", "KeyController::assign");
             $routes->post("return", "KeyController::return");
@@ -57,6 +58,7 @@ $routes->group("api", function ($routes) {
             $routes->post("edit", "StaffController::edit");
             $routes->post("delete", "StaffController::delete");
             $routes->post("list", "StaffController::list");
+            $routes->post("view", "StaffController::view");
             $routes->post("uploadCsv", "StaffController::uploadCsv");
             $routes->post("signOut", "StaffController::signOut");
             $routes->post("history", "StaffController::history");
@@ -92,9 +94,11 @@ $routes->group("api", function ($routes) {
             $routes->post("keyOnLoan", "ReportController::keyOnLoan");
             $routes->post("allKeyList", "ReportController::allKeyList");
             $routes->post("endOfDayKey", "ReportController::endOfDayKey");
+            $routes->post("staffKey", "ReportController::staffKey");
         });
 
         $routes->group("staffReport", function ($routes) {
+            $routes->post("filterSelectList", "StaffReportController::filterSelectList");
             $routes->post("filterData", "StaffReportController::filterData");
             $routes->post("currentWeekByName", "StaffReportController::currentWeekByName");
             $routes->post("currentWeekByDate", "StaffReportController::currentWeekByDate");
@@ -109,6 +113,12 @@ $routes->group("api", function ($routes) {
         $routes->group("alert", function ($routes) {
             $routes->post("alertData", "AlertController::alertData");
             $routes->post("updateAlertData", "AlertController::updateAlertData");
+        });
+
+        $routes->group("admin", function ($routes) {
+            $routes->post("list", "AdminController::list");
+            $routes->post("accessUpdate", "AdminController::accessUpdate");
+            $routes->post("passwordUpdate", "AdminController::passwordUpdate");            
         });
 
     });

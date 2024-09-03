@@ -28,6 +28,8 @@ class KeyController extends BaseController
             try {
                 helper('text');
                 
+                $manageData = $this->managementRecordFind($body->management_id);
+                var_dump($manageData);
                 $managementKey = new ManagementKey();
                 $management = $managementKey->where('management_id', $body->management_id)->where('key_id', $body->key_id)->first();
     
@@ -249,7 +251,7 @@ class KeyController extends BaseController
                 $managementKey = $managementKey->get();
                 if ($results = $managementKey->getResult()) {
                     $data = array(); $d=0;
-                    print_r($results);
+                    var_dump($results);
                     foreach ($results as $key => $result) {
                         
                         
@@ -333,39 +335,63 @@ class KeyController extends BaseController
                 helper('text');
                 
                 $visitorRecordKeys = new VisitorRecordKeys();
-                $visitorRecordKeysData = $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')->join('visitors', 'visitors.id = visitor_records.visitor_id')->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id')->where('visitor_record_keys.management_key_id', $body->management_key_id)->orderBy('created_at','DESC')->get();
+                $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')->join('visitors', 'visitors.id = visitor_records.visitor_id')->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id');
+
+                if(!empty($body->visitor_type_id)){
+                    $visitorRecordKeys->where('visitor_type.id', $body->visitor_type_id);
+                }
+                if(!empty($body->name)){
+                    $conditions = "(visitors.first_name LIKE '%" . $body->name . "%' OR visitors.last_name LIKE '%" . $body->name . "%')";
+                    $visitorRecordKeys->where($conditions);
+                }
+                if(!empty($body->company_name)){
+                    $visitorRecordKeys->where('visitors.company_name', $body->company_name);
+                }
+                
+                $visitorRecordKeys->where('visitor_record_keys.management_key_id', $body->management_key_id);
+                
+                $visitorRecordKeysData = $visitorRecordKeys->orderBy('created_at','DESC')->get();
+
                 $data = array(); $d=0;
                 if ($results = $visitorRecordKeysData->getResult()) {
                     foreach ($results as $key => $result) {
                         
                         $managementKey = new ManagementKey();
-                        $managementKey = $managementKey->where('id', $body->management_key_id)->first();
-                
-                        $data[$d]['management_key_id'] = $managementKey['id'];
-                        $data[$d]['key_id'] = $managementKey['key_id'];
-                        $data[$d]['serial_no'] = $managementKey['serial_no'];
-                        $data[$d]['key_type'] = $managementKey['key_type'];
                         
-                        if($result->status == 1){
-                            $data[$d]['key_loan'] = false;
+                        if(!empty($body->serial_no)){
+                            $managementKey = $managementKey->like('serial_no', '%'.$body->serial_no.'%')->where('id', $body->management_key_id)->first();
                         }else{
-                            $data[$d]['key_loan'] = true;
+                            $managementKey = $managementKey->where('id', $body->management_key_id)->first();
                         }
+                        
+                        if($managementKey){
+                
+                            $data[$d]['management_key_id'] = $managementKey['id'];
+                            $data[$d]['key_id'] = $managementKey['key_id'];
+                            $data[$d]['serial_no'] = $managementKey['serial_no'];
+                            $data[$d]['key_type'] = $managementKey['key_type'];
                             
-                        $data[$d]['person_type'] = $result->type;
-                        $data[$d]['name'] = $result->first_name.' '.$result->last_name;
-                        $data[$d]['company'] = $result->company_name;
+                            if($result->status == 1){
+                                $data[$d]['key_loan'] = false;
+                            }else{
+                                $data[$d]['key_loan'] = true;
+                            }
+                                
+                            $data[$d]['person_type'] = $result->type;
+                            $data[$d]['name'] = $result->first_name.' '.$result->last_name;
+                            $data[$d]['company'] = $result->company_name;
+                            
+                            $loan_period = date_create($result->created_at);
+                            $data[$d]['date_out'] = date_format($loan_period, 'd/m/Y');
+                            $data[$d]['time_out'] = date_format($loan_period, 'h:ia');
+                            
+                            $loan_period = date_create($result->updated_at);
+                            $data[$d]['return_date'] = date_format($loan_period, 'd/m/Y');
+                            $data[$d]['return_time'] = date_format($loan_period, 'h:ia');
                         
-                        $loan_period = date_create($result->created_at);
-                        $data[$d]['date_out'] = date_format($loan_period, 'd/m/Y');
-                        $data[$d]['time_out'] = date_format($loan_period, 'h:ia');
-                        
-                        $loan_period = date_create($result->updated_at);
-                        $data[$d]['return_date'] = date_format($loan_period, 'd/m/Y');
-                        $data[$d]['return_time'] = date_format($loan_period, 'h:ia');
-                     
-                        $data[$d]['loan_length'] =  $result->loan_period;
-                        $d++;
+                            $data[$d]['loan_length'] =  $result->loan_period;
+                            $d++;
+                        }
                     }
                     
                 }
@@ -557,4 +583,6 @@ class KeyController extends BaseController
             return $this->fail($response, 409);
         }
     }
+
+
 }

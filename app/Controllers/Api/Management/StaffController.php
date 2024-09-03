@@ -187,6 +187,66 @@ class StaffController extends BaseController
             return $this->fail($response, 409);
         }
     }
+    public function view()
+    {
+        $rules = [
+            'management_staff_id' => ['rules' => 'required']
+        ];
+
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+            try {
+                $db = \Config\Database::connect();
+                $management_login_builder = $db->table('management_login');
+
+                if(!empty($body->formDate) && !empty($body->toDate)){
+                    $formDate = date('Y-m-d', strtotime($body->formDate));
+                    $toDate = date('Y-m-d', strtotime($body->toDate));
+                    $visitor_records_builder->where('management_login.created_at >=', $formDate);
+                    $visitor_records_builder->where('management_login.created_at <=', $toDate);
+                }
+                
+                if(!empty($body->week_schedule)){
+                    $management_login_builder->select("*,CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, ' ', DATE_FORMAT(management_login.created_at, '%b %Y')) AS formatted_week");
+                    $management_login_builder->having('formatted_week', $body->week_schedule);
+                }
+                
+                $management_login_builder->where('management_login.staff_id', $body->management_staff_id);
+                $management_login_builder->join('management_staff', 'management_login.staff_id = management_staff.id', 'inner');
+
+                $management_login_builder->orderBy('management_login.created_at','DESC');
+                $managementLogin = $management_login_builder->get();
+                $data = array(); $d=0;
+                if ($results = $managementLogin->getResult()) {
+                    foreach ($results as $key => $result) {
+                        $data[$d]['staff_id'] = $result->staff_id;
+                        $data[$d]['name'] = $result->name;
+                        $data[$d]['mobile_number'] = $result->mobile_number;
+                        $data[$d]['date'] = $result->date;
+                        $data[$d]['time_in'] = $result->time_in;
+                        $data[$d]['time_out'] = $result->time_out != '00:00:00' ? $result->total_time : '-';
+                        $data[$d]['total_time'] = $result->total_time != '' ? $result->total_time : '-';
+                        $d++;
+                    }
+                }
+                
+                if(sizeof($data) > 0){
+                    return $this->respond(['status' => 1, 'message' => 'Staff data', 'data' => $data], 200);
+                }else{
+                    return $this->respond(['status' => 0, 'message' => 'No Staff data found ', 'data' => array()], 200);
+                }
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
     public function uploadCsv()
     {
         $bodys = json_decode($this->request->getBody());
@@ -267,7 +327,6 @@ class StaffController extends BaseController
             return $this->fail($response, 409);
         }
     }
-    
     public function history()
     {
         $rules = [

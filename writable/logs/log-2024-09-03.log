@@ -1,0 +1,718 @@
+WARNING - 2024-09-03 01:38:25 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:38:26 --> ErrorException: Undefined variable $management_login_builder
+[Method: POST, Route: api/management/staffReport/filterSelectList]
+in APPPATH\Controllers\Api\Management\StaffReportController.php on line 39.
+ 1 APPPATH\Controllers\Api\Management\StaffReportController.php(39): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $management_login_builder', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\StaffReportController.php', 39)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterSelectList()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:41:19 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:41:20 --> ErrorException: Array to string conversion
+[Method: POST, Route: api/management/staffReport/filterSelectList]
+in SYSTEMPATH\Database\Query.php on line 331.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\management\\vendor\\codeigniter4\\framework\\system\\Database\\Query.php', 331)
+ 2 SYSTEMPATH\Database\Query.php(331): implode(',', [...])
+ 3 SYSTEMPATH\Database\Query.php(312): CodeIgniter\Database\Query->matchNamedBinds('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...])
+ 4 SYSTEMPATH\Database\Query.php(163): CodeIgniter\Database\Query->compileBinds()
+ 5 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\Query->getQuery()
+ 6 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...], false)
+ 7 APPPATH\Controllers\Api\Management\StaffReportController.php(42): CodeIgniter\Database\BaseBuilder->get()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterSelectList()
+ 9 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:41:39 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:41:40 --> ErrorException: Array to string conversion
+[Method: POST, Route: api/management/staffReport/filterSelectList]
+in SYSTEMPATH\Database\Query.php on line 331.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\management\\vendor\\codeigniter4\\framework\\system\\Database\\Query.php', 331)
+ 2 SYSTEMPATH\Database\Query.php(331): implode(',', [...])
+ 3 SYSTEMPATH\Database\Query.php(312): CodeIgniter\Database\Query->matchNamedBinds('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...])
+ 4 SYSTEMPATH\Database\Query.php(163): CodeIgniter\Database\Query->compileBinds()
+ 5 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\Query->getQuery()
+ 6 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...], false)
+ 7 APPPATH\Controllers\Api\Management\StaffReportController.php(42): CodeIgniter\Database\BaseBuilder->get()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterSelectList()
+ 9 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:43:24 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:43:24 --> ErrorException: Array to string conversion
+[Method: POST, Route: api/management/staffReport/filterSelectList]
+in SYSTEMPATH\Database\Query.php on line 331.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\management\\vendor\\codeigniter4\\framework\\system\\Database\\Query.php', 331)
+ 2 SYSTEMPATH\Database\Query.php(331): implode(',', [...])
+ 3 SYSTEMPATH\Database\Query.php(312): CodeIgniter\Database\Query->matchNamedBinds('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...])
+ 4 SYSTEMPATH\Database\Query.php(163): CodeIgniter\Database\Query->compileBinds()
+ 5 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\Query->getQuery()
+ 6 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...], false)
+ 7 APPPATH\Controllers\Api\Management\StaffReportController.php(42): CodeIgniter\Database\BaseBuilder->get()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterSelectList()
+ 9 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:43:50 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:43:51 --> ErrorException: Array to string conversion
+[Method: POST, Route: api/management/staffReport/filterSelectList]
+in SYSTEMPATH\Database\Query.php on line 331.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\management\\vendor\\codeigniter4\\framework\\system\\Database\\Query.php', 331)
+ 2 SYSTEMPATH\Database\Query.php(331): implode(',', [...])
+ 3 SYSTEMPATH\Database\Query.php(312): CodeIgniter\Database\Query->matchNamedBinds('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...])
+ 4 SYSTEMPATH\Database\Query.php(163): CodeIgniter\Database\Query->compileBinds()
+ 5 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\Query->getQuery()
+ 6 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...], false)
+ 7 APPPATH\Controllers\Api\Management\StaffReportController.php(42): CodeIgniter\Database\BaseBuilder->get()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterSelectList()
+ 9 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:44:40 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:44:41 --> ErrorException: Array to string conversion
+[Method: POST, Route: api/management/staffReport/filterSelectList]
+in SYSTEMPATH\Database\Query.php on line 331.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\management\\vendor\\codeigniter4\\framework\\system\\Database\\Query.php', 331)
+ 2 SYSTEMPATH\Database\Query.php(331): implode(',', [...])
+ 3 SYSTEMPATH\Database\Query.php(312): CodeIgniter\Database\Query->matchNamedBinds('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...])
+ 4 SYSTEMPATH\Database\Query.php(163): CodeIgniter\Database\Query->compileBinds()
+ 5 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\Query->getQuery()
+ 6 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+GROUP BY `formatted_week`', [...], false)
+ 7 APPPATH\Controllers\Api\Management\StaffReportController.php(42): CodeIgniter\Database\BaseBuilder->get()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterSelectList()
+ 9 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:45:45 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:45:45 --> ErrorException: Array to string conversion
+[Method: POST, Route: api/management/staffReport/filterSelectList]
+in SYSTEMPATH\Database\Query.php on line 331.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\management\\vendor\\codeigniter4\\framework\\system\\Database\\Query.php', 331)
+ 2 SYSTEMPATH\Database\Query.php(331): implode(',', [...])
+ 3 SYSTEMPATH\Database\Query.php(312): CodeIgniter\Database\Query->matchNamedBinds('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+AND `staff_id` IN :staff_id.1:
+GROUP BY `formatted_week`', [...])
+ 4 SYSTEMPATH\Database\Query.php(163): CodeIgniter\Database\Query->compileBinds()
+ 5 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\Query->getQuery()
+ 6 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+AND `staff_id` IN :staff_id.1:
+GROUP BY `formatted_week`', [...], false)
+ 7 APPPATH\Controllers\Api\Management\StaffReportController.php(43): CodeIgniter\Database\BaseBuilder->get()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterSelectList()
+ 9 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:46:00 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:46:01 --> ErrorException: Array to string conversion
+[Method: POST, Route: api/management/staffReport/filterSelectList]
+in SYSTEMPATH\Database\Query.php on line 331.
+ 1 [internal function]: CodeIgniter\Debug\Exceptions->errorHandler(2, 'Array to string conversion', 'C:\\xampp\\htdocs\\management\\vendor\\codeigniter4\\framework\\system\\Database\\Query.php', 331)
+ 2 SYSTEMPATH\Database\Query.php(331): implode(',', [...])
+ 3 SYSTEMPATH\Database\Query.php(312): CodeIgniter\Database\Query->matchNamedBinds('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+AND `staff_id` IN :staff_id.1:
+GROUP BY `formatted_week`', [...])
+ 4 SYSTEMPATH\Database\Query.php(163): CodeIgniter\Database\Query->compileBinds()
+ 5 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\Query->getQuery()
+ 6 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(created_at, 1) - WEEK(DATE_SUB(created_at, INTERVAL DAY(created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+WHERE `staff_id` IN :staff_id:
+AND `staff_id` IN :staff_id.1:
+GROUP BY `formatted_week`', [...], false)
+ 7 APPPATH\Controllers\Api\Management\StaffReportController.php(41): CodeIgniter\Database\BaseBuilder->get()
+ 8 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterSelectList()
+ 9 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+10 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+11 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+12 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+13 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+14 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:47:27 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:47:56 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:50:17 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:50:44 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:51:09 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:53:01 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:56:04 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:57:04 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:58:26 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+ERROR - 2024-09-03 01:58:27 --> mysqli_sql_exception: Unknown column 'formatted_week' in 'where clause' in C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:312
+Stack trace:
+#0 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(312): mysqli->query('SELECT CONCAT(W...', 0)
+#1 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT CONCAT(W...')
+#2 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT CONCAT(W...')
+#3 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(W...', Array, false)
+#4 C:\xampp\htdocs\management\app\Controllers\Api\Management\StaffReportController.php(109): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+#6 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+#7 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\management\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#12 {main}
+CRITICAL - 2024-09-03 01:58:27 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'formatted_week' in 'where clause'
+[Method: POST, Route: api/management/staffReport/filterData]
+in SYSTEMPATH\Database\BaseConnection.php on line 688.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = :formatted_week:
+AND `management_login`.`staff_id` IN :management_login.staff_id:
+ORDER BY `management_staff`.`name` ASC', [...], false)
+ 2 APPPATH\Controllers\Api\Management\StaffReportController.php(109): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+ 4 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+ 5 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 9 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:58:27 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'formatted_week' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 317.
+ 1 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = :formatted_week:
+AND `management_login`.`staff_id` IN :management_login.staff_id:
+ORDER BY `management_staff`.`name` ASC', [...], false)
+ 4 APPPATH\Controllers\Api\Management\StaffReportController.php(109): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:58:27 --> [Caused by] mysqli_sql_exception: Unknown column 'formatted_week' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 312.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(312): mysqli->query('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = :formatted_week:
+AND `management_login`.`staff_id` IN :management_login.staff_id:
+ORDER BY `management_staff`.`name` ASC', [...], false)
+ 5 APPPATH\Controllers\Api\Management\StaffReportController.php(109): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 01:58:33 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+ERROR - 2024-09-03 01:58:34 --> mysqli_sql_exception: Unknown column 'formatted_week' in 'where clause' in C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:312
+Stack trace:
+#0 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(312): mysqli->query('SELECT CONCAT(W...', 0)
+#1 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT CONCAT(W...')
+#2 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT CONCAT(W...')
+#3 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(W...', Array, false)
+#4 C:\xampp\htdocs\management\app\Controllers\Api\Management\StaffReportController.php(109): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+#6 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+#7 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#8 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#9 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#10 C:\xampp\htdocs\management\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#11 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#12 {main}
+CRITICAL - 2024-09-03 01:58:34 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'formatted_week' in 'where clause'
+[Method: POST, Route: api/management/staffReport/filterData]
+in SYSTEMPATH\Database\BaseConnection.php on line 688.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = :formatted_week:
+AND `management_login`.`staff_id` IN :management_login.staff_id:
+ORDER BY `management_staff`.`name` ASC', [...], false)
+ 2 APPPATH\Controllers\Api\Management\StaffReportController.php(109): CodeIgniter\Database\BaseBuilder->get()
+ 3 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+ 4 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+ 5 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 6 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 7 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 8 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 9 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:58:34 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'formatted_week' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 317.
+ 1 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = :formatted_week:
+AND `management_login`.`staff_id` IN :management_login.staff_id:
+ORDER BY `management_staff`.`name` ASC', [...], false)
+ 4 APPPATH\Controllers\Api\Management\StaffReportController.php(109): CodeIgniter\Database\BaseBuilder->get()
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 01:58:34 --> [Caused by] mysqli_sql_exception: Unknown column 'formatted_week' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 312.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(312): mysqli->query('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = \'5 Aug 2024\'
+AND `management_login`.`staff_id` IN (\'1\',\'2\',\'5\')
+ORDER BY `management_staff`.`name` ASC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, \' \', DATE_FORMAT(management_login.created_at, \'%b %Y\')) AS formatted_week
+FROM `management_login`
+INNER JOIN `management_staff` ON `management_login`.`staff_id` = `management_staff`.`id`
+WHERE `formatted_week` = :formatted_week:
+AND `management_login`.`staff_id` IN :management_login.staff_id:
+ORDER BY `management_staff`.`name` ASC', [...], false)
+ 5 APPPATH\Controllers\Api\Management\StaffReportController.php(109): CodeIgniter\Database\BaseBuilder->get()
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:03:17 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 02:03:18 --> ErrorException: Undefined property: stdClass::$staff_id
+[Method: POST, Route: api/management/staffReport/filterData]
+in APPPATH\Controllers\Api\Management\StaffReportController.php on line 113.
+ 1 APPPATH\Controllers\Api\Management\StaffReportController.php(113): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$staff_id', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\StaffReportController.php', 113)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffReportController->filterData()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffReportController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:03:59 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:07:03 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:07:06 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:07:11 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:07:15 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:08:07 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:08:32 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:08:55 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:14:17 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:14:38 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 02:21:10 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 02:25:50 --> ErrorException: Undefined variable $db
+[Method: POST, Route: api/management/staff/view]
+in APPPATH\Controllers\Api\Management\StaffController.php on line 200.
+ 1 APPPATH\Controllers\Api\Management\StaffController.php(200): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $db', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\StaffController.php', 200)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffController->view()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 02:26:10 --> ErrorException: Undefined property: stdClass::$name
+[Method: POST, Route: api/management/staff/view]
+in APPPATH\Controllers\Api\Management\StaffController.php on line 217.
+ 1 APPPATH\Controllers\Api\Management\StaffController.php(217): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$name', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\StaffController.php', 217)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffController->view()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 03:30:29 --> ErrorException: Trying to access array offset on value of type null
+[Method: POST, Route: api/management/keys/history]
+in APPPATH\Controllers\Api\Management\KeyController.php on line 344.
+ 1 APPPATH\Controllers\Api\Management\KeyController.php(344): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Trying to access array offset on value of type null', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\KeyController.php', 344)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->history()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-03 03:44:42 --> CodeIgniter\HTTP\Exceptions\HTTPException: Failed to parse JSON string. Error: Syntax error
+[Method: POST, Route: api/management/keys/history]
+in SYSTEMPATH\HTTP\IncomingRequest.php on line 537.
+ 1 SYSTEMPATH\HTTP\IncomingRequest.php(537): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidJSON('Syntax error')
+ 2 SYSTEMPATH\Validation\Validation.php(509): CodeIgniter\HTTP\IncomingRequest->getJSON(true)
+ 3 SYSTEMPATH\Controller.php(137): CodeIgniter\Validation\Validation->withRequest(Object(CodeIgniter\HTTP\IncomingRequest))
+ 4 APPPATH\Controllers\Api\Management\KeyController.php(331): CodeIgniter\Controller->validate([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->history()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 04:02:35 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 04:05:36 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 04:05:39 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 04:05:58 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 04:07:08 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 04:07:15 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-03 04:11:01 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\ReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\ReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\ReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
