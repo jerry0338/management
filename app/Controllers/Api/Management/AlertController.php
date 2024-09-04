@@ -4,7 +4,7 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{ManagementAlert};
+use App\Models\{ManagementAlert, ManagementKeyAlert};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -108,6 +108,81 @@ class AlertController extends BaseController
         } 
     } 
 
+    public function keyAlertData()
+    {
+        $rules = [
+            'management_id' => ['rules' => 'required']
+        ];
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+            try {
+                $managementAlert = new ManagementKeyAlert();
+                $managementAlert = $managementAlert->where('management_id', $body->management_id)->first();
+                if (is_null($managementAlert)) {
+
+                    $alerts = [
+                        [
+                            'slug' => 'contractor_end_of_day_alert',
+                            'title' => 'Contractor End of Day Alert',
+                        ],
+                        [
+                            'slug' => 'contractor_more_than_24_hrs',
+                            'title' => 'Contractor More than 24 hrs',
+                        ]
+                    ];
+                    
+                    foreach ($alerts as $alert) {
+                        $management = new ManagementKeyAlert();
+                        $data = [
+                            'management_id' => $body->management_id,
+                            'slug' => $alert['slug'],
+                            'title' => $alert['title'],
+                            'status' => '1',
+                        ];
+                        $management->insert($data); 
+                    }
+                }
+
+                $alertData = $this->singleKeyAlertData($body->management_id);
+                return $this->respond(['status' => 1,'message' => 'Management Key Alert Data', 'data' => $alertData], 200);
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+    
+    public function updateKeyAlertData()
+    {
+        $bodyData = json_decode($this->request->getBody());
+        $db = \Config\Database::connect();
+        try {
+            $bodys = $bodyData->data;
+            foreach($bodys as $body){
+                $ManagementAlert = new ManagementKeyAlert();
+                $ManagementAlert = $ManagementAlert->where('id', $body->alert_id)->first();
+                if (!is_null($ManagementAlert)) {
+                    $managementAlertUpdate = $db->table('management_key_alert');
+                    $managementAlertUpdate = $managementAlertUpdate->where('id', $body->alert_id);
+                    $data = [
+                        'set_time'  => $body->set_time,
+                        'alert_status'  => $body->alert_status,
+                    ];
+                    $managementAlertUpdate->update($data);
+                }
+            }
+            return $this->respond(['status' => 1,'message' => 'Management Key Alert updated'], 200);
+        } catch (Exception $exception) {
+            return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+        } 
+    } 
+
     public function singleAlertData($management_id)
     {
         $managementAlert = new ManagementAlert();
@@ -124,6 +199,24 @@ class AlertController extends BaseController
                 $data[$d]['admin_staff'] = $result->admin_staff;
                 $data[$d]['whome_visiting'] = $result->whome_visiting;
                 $data[$d]['turn_alert'] = $result->turn_alert;
+                $d++;
+            }
+        }
+        return $data;
+    }
+    
+    public function singleKeyAlertData($management_id)
+    {
+        $managementKeyAlert = new ManagementKeyAlert();
+        $managementKeyAlerts = $managementKeyAlert->where('management_id', $management_id)->where('status', 1)->get();
+        $data = array(); $d=0;
+        if ($results = $managementKeyAlerts->getResult()) {
+            foreach ($results as $key => $result) {
+                $data[$d]['alert_id'] = $result->id;
+                $data[$d]['slug'] = $result->slug;
+                $data[$d]['title'] = $result->title;
+                $data[$d]['set_time'] = $result->set_time;
+                $data[$d]['alert_status'] = $result->alert_status;
                 $d++;
             }
         }

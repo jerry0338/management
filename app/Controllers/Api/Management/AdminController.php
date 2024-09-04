@@ -34,6 +34,7 @@ class AdminController extends BaseController
                         $data[$d]['email'] = $result->email;
                         $data[$d]['role'] = $result->role;
                         $data[$d]['access'] = $result->access;
+                        $data[$d]['alert'] = $result->alert;
                         $data[$d]['key_id'] = 'n/a';
                         $data[$d]['created_at'] = $result->created_at;
                         $d++;
@@ -78,6 +79,40 @@ class AdminController extends BaseController
                     return $this->respond(['status' => 1, 'message' => 'Staff access updated successfully'], 200);
                 }else{
                     return $this->respond(['status' => 0, 'message' => 'Staff access not updat.please, try again.'], 200);
+                }
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+    public function alertUpdate()
+    {
+        $rules = [
+            'management_staff_id' => ['rules' => 'required'],
+            'alert' => ['rules' => 'required']
+        ];
+
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+            try {
+                $db = \Config\Database::connect();
+                $management_staff = $db->table('management_staff');
+                $managementStaff = $management_staff->where('id', $body->management_staff_id);
+                $data = [
+                    'alert' => $body->alert
+                ];
+
+                if($managementStaff->update($data)){
+                    return $this->respond(['status' => 1, 'message' => 'Staff alert updated successfully'], 200);
+                }else{
+                    return $this->respond(['status' => 0, 'message' => 'Staff alert not updat.please, try again.'], 200);
                 }
             } catch (Exception $exception) {
                 return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);

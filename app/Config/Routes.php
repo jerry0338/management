@@ -113,11 +113,14 @@ $routes->group("api", function ($routes) {
         $routes->group("alert", function ($routes) {
             $routes->post("alertData", "AlertController::alertData");
             $routes->post("updateAlertData", "AlertController::updateAlertData");
+            $routes->post("keyAlertData", "AlertController::keyAlertData");
+            $routes->post("updateKeyAlertData", "AlertController::updateKeyAlertData");
         });
 
         $routes->group("admin", function ($routes) {
             $routes->post("list", "AdminController::list");
             $routes->post("accessUpdate", "AdminController::accessUpdate");
+            $routes->post("alertUpdate", "AdminController::alertUpdate");
             $routes->post("passwordUpdate", "AdminController::passwordUpdate");            
         });
 

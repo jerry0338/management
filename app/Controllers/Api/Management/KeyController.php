@@ -583,6 +583,10 @@ class KeyController extends BaseController
             return $this->fail($response, 409);
         }
     }
+    private function managementRecordFind(){
+        
+        $managementModel = new Management();
 
+    }
 
 }
