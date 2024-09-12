@@ -118,7 +118,7 @@ class AuthController extends BaseController
                     $email = $managementStaff['email'];
                     $name = explode(' ', $managementStaff['name']);
                     $first_name = $name[0];
-                    $last_name = $name[1];
+                    $last_name = isset($name[1]) ? $name[1] : '';
                     $managementData = $managementModel->where('id', $managementStaff['management_id'])->select(['title'])->first();
                     $title = $managementData['title'];
                     $mobile_number = $managementStaff['mobile_number'];
