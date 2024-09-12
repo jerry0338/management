@@ -16,15 +16,23 @@ class AdminController extends BaseController
     public function list()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
 
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementStaff = new ManagementStaff();
-                $managementStaff = $managementStaff->where('role', 'Admin')->where('management_id', $body->management_id)->get();
+                $managementStaff = $managementStaff->where('role', 'Admin')->where('management_id', $management_id)->get();
                 $data = array(); $d=0;
                 if ($results = $managementStaff->getResult()) {
                     foreach ($results as $key => $result) {

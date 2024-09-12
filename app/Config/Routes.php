@@ -69,10 +69,10 @@ $routes->group("api", function ($routes) {
         });
         
         $routes->group("question", function ($routes) {
-            $routes->post("add", "QueationController::add");
-            $routes->post("edit", "QueationController::edit");
-            $routes->post("delete", "QueationController::delete");
-            $routes->post("list", "QueationController::list");
+            $routes->post("add", "QuestionController::add");
+            $routes->post("edit", "QuestionController::edit");
+            $routes->post("delete", "QuestionController::delete");
+            $routes->post("list", "QuestionController::list");
         });
         
         $routes->group("visitor", function ($routes) {

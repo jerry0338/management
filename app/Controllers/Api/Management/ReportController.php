@@ -19,18 +19,25 @@ class ReportController extends BaseController
     public function curerntVisitor()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $visitor_records_builder = $db->table('visitor_records');
             $visitor_records_builder->where('purpose_entry', 'LOG-IN');
-            $visitor_records_builder->where('management_id', $body->management_id);
+            $visitor_records_builder->where('management_id', $management_id);
             $get_visitor = $visitor_records_builder->orderBy('created_at','DESC')->get();
             if ($results = $get_visitor->getResult()) {
 
@@ -93,19 +100,26 @@ class ReportController extends BaseController
     public function dailyData()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $visitor_records_builder = $db->table('visitor_records');
             $today = date('Y-m-d');
             $visitor_records_builder->where('DATE(created_at)', $today);
-            $visitor_records_builder->where('management_id', $body->management_id);
+            $visitor_records_builder->where('management_id', $management_id);
             $get_visitor = $visitor_records_builder->orderBy('created_at','DESC')->get();
             if ($results = $get_visitor->getResult()) {
 
@@ -175,13 +189,20 @@ class ReportController extends BaseController
     public function weeklyData()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $visitor_records_builder = $db->table('visitor_records');
@@ -189,7 +210,7 @@ class ReportController extends BaseController
             $endDate = date('Y-m-d', strtotime('this week sunday'));
             $visitor_records_builder->where('created_at >=', $startDate);
             $visitor_records_builder->where('created_at <=', $endDate);
-            $visitor_records_builder->where('management_id', $body->management_id);
+            $visitor_records_builder->where('management_id', $management_id);
             $get_visitor = $visitor_records_builder->orderBy('created_at','DESC')->get();
             if ($results = $get_visitor->getResult()) {
 
@@ -259,13 +280,20 @@ class ReportController extends BaseController
     public function filterData()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $visitor_records_builder = $db->table('visitor_records');
@@ -294,7 +322,7 @@ class ReportController extends BaseController
                 $visitor_records_builder->where('visitor_id', $body->visitor_id);
             }
             
-            $visitor_records_builder->where('management_id', $body->management_id);
+            $visitor_records_builder->where('management_id', $management_id);
             $get_visitor = $visitor_records_builder->orderBy('created_at','DESC')->get();
             if ($results = $get_visitor->getResult()) {
 
@@ -364,17 +392,24 @@ class ReportController extends BaseController
     public function keyAvalible()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementKey = new ManagementKey();
-            $managementKey = $managementKey->where('management_id', $body->management_id)->get();
+            $managementKey = $managementKey->where('management_id', $management_id)->get();
             if ($results = $managementKey->getResult()) {
                 $data = array(); $d=0;
                 foreach ($results as $key => $result) {                    
@@ -423,17 +458,24 @@ class ReportController extends BaseController
     public function keyOnLoan()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementKey = new ManagementKey();
-            $managementKey = $managementKey->where('management_id', $body->management_id)->get();
+            $managementKey = $managementKey->where('management_id', $management_id)->get();
             if ($results = $managementKey->getResult()) {
                 $data = array(); $d=0;
                 foreach ($results as $key => $result) {                    
@@ -491,17 +533,24 @@ class ReportController extends BaseController
     public function allKeyList()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementKey = new ManagementKey();
-            $managementKey = $managementKey->where('management_id', $body->management_id)->get();
+            $managementKey = $managementKey->where('management_id', $management_id)->get();
             if ($results = $managementKey->getResult()) {
                 $data = array(); $d=0;
                 foreach ($results as $key => $result) {
@@ -570,17 +619,24 @@ class ReportController extends BaseController
     public function endOfDayKey()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementKey = new ManagementKey();
-            $managementKey = $managementKey->where('management_id', $body->management_id)->get();
+            $managementKey = $managementKey->where('management_id', $management_id)->get();
             if ($results = $managementKey->getResult()) {
                 $data = array(); $d=0;
                 foreach ($results as $key => $result) {
@@ -650,17 +706,23 @@ class ReportController extends BaseController
     public function staffKey()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
-
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
             $db = \Config\Database::connect();
             $managementKey = new ManagementKey();
-            $managementKey = $managementKey->where('management_id', $body->management_id)->get();
+            $managementKey = $managementKey->where('management_id', $management_id)->get();
             if ($results = $managementKey->getResult()) {
                 $data = array(); $d=0;
                 foreach ($results as $key => $result) {

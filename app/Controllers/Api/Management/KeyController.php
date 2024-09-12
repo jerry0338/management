@@ -18,6 +18,7 @@ class KeyController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'key_id' => ['rules' => 'required'],
             'serial_no' => ['rules' => 'required']
         ];
@@ -27,16 +28,22 @@ class KeyController extends BaseController
         if ($this->validate($rules)) {
             try {
                 helper('text');
-                
-                $manageData = $this->managementRecordFind($body->management_id);
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
+                $manageData = $this->managementRecordFind($management_id);
                 var_dump($manageData);
                 $managementKey = new ManagementKey();
-                $management = $managementKey->where('management_id', $body->management_id)->where('key_id', $body->key_id)->first();
+                $management = $managementKey->where('management_id', $management_id)->where('key_id', $body->key_id)->first();
     
                 if (is_null($management)) {
                     $managementKey = new ManagementKey();
                     $data = [
-                        'management_id'  => $body->management_id,
+                        'management_id'  => $management_id,
                         'key_id'         => $body->key_id,
                         'serial_no'       => $body->serial_no,
                         'key_type'       => $body->key_type ?? ''
@@ -65,6 +72,7 @@ class KeyController extends BaseController
         $rules = [
             'management_key_id' => ['rules' => 'required'],
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'key_id' => ['rules' => 'required'],
             'serial_no' => ['rules' => 'required']
         ];
@@ -73,9 +81,14 @@ class KeyController extends BaseController
 
         if ($this->validate($rules)) {
             try {
-                
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
                 $managementKey = new ManagementKey();
-                $management = $managementKey->where('id NOT LIKE', $body->management_key_id)->where('management_id', $body->management_id)->where('key_id', $body->key_id)->first();
+                $management = $managementKey->where('id NOT LIKE', $body->management_key_id)->where('management_id', $management_id)->where('key_id', $body->key_id)->first();
                 if (is_null($management)) {
                     $db = \Config\Database::connect();
 
@@ -112,6 +125,7 @@ class KeyController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'management_key_id' => ['rules' => 'required']
         ];
 
@@ -119,16 +133,22 @@ class KeyController extends BaseController
 
         if ($this->validate($rules)) {
             try {
-             
+                
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
                 $recordsCheck = new VisitorRecords();
-                $recordsCheck = $recordsCheck->where('management_key_id', $body->management_key_id)->where('management_id', $body->management_id)->first();
+                $recordsCheck = $recordsCheck->where('management_key_id', $body->management_key_id)->where('management_id', $management_id)->first();
                 if(!$recordsCheck){
                             
                     $db = \Config\Database::connect();
                     $managementKey = $db->table('management_key');
                     
                     // Assuming $id contains the ID of the row you want to delete
-                    $managementKey->where('management_id', $body->management_id);
+                    $managementKey->where('management_id', $management_id);
                     $managementKey->where('id', $body->management_key_id);
                     if ($managementKey->delete()){
                         return $this->respond(['status' => 1, 'message' => 'Key deleted.'], 200);
@@ -154,7 +174,8 @@ class KeyController extends BaseController
     public function list()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
@@ -162,8 +183,15 @@ class KeyController extends BaseController
         if ($this->validate($rules)) {
             try {
                 helper('text');
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementKey = new ManagementKey();
-                $managementKey = $managementKey->where('management_id', $body->management_id)->get();
+                $managementKey = $managementKey->where('management_id', $management_id)->get();
                 $data = array(); $d=0;
                 if ($results = $managementKey->getResult()) {
                     foreach ($results as $key => $result) {
@@ -417,6 +445,7 @@ class KeyController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'key_id' => ['rules' => 'required'],
             'loan_period' => ['rules' => 'required'],
             'visitor_id' => ['rules' => 'required']
@@ -426,13 +455,19 @@ class KeyController extends BaseController
 
         if ($this->validate($rules)) {
             try {
-                
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $visitorRecordsCheck = new VisitorRecords();
-                $visitorRecordsCheck = $visitorRecordsCheck->where('visitor_id', $body->visitor_id)->where('management_id', $body->management_id)->where('purpose_entry', 'LOG-IN')->first();
+                $visitorRecordsCheck = $visitorRecordsCheck->where('visitor_id', $body->visitor_id)->where('management_id', $management_id)->where('purpose_entry', 'LOG-IN')->first();
                 if($visitorRecordsCheck){
                   
                     $managementKey = new ManagementKey();
-                    $managementKeyData = $managementKey->where('management_id', $body->management_id)->where('key_id', $body->key_id)->first();
+                    $managementKeyData = $managementKey->where('management_id', $management_id)->where('key_id', $body->key_id)->first();
                     
                     if($managementKeyData){
                         
@@ -480,7 +515,6 @@ class KeyController extends BaseController
     public function return()
     {
         $rules = [
-            'management_id' => ['rules' => 'required'],
             'management_key_id' => ['rules' => 'required']
         ];
 
@@ -521,21 +555,27 @@ class KeyController extends BaseController
     public function checkout()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
 
         if ($this->validate($rules)) {
             try {
-             
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $db = \Config\Database::connect();
-                
                 if(!empty($body->management_key_id)){
                     $management_key_id = $body->management_key_id;
                 }else if(!empty($body->key_id)){
                     $managementKey = new ManagementKey();
-                    $managementKeyData = $managementKey->where('management_id', $body->management_id)->where('key_id', $body->key_id)->first();
+                    $managementKeyData = $managementKey->where('management_id', $management_id)->where('key_id', $body->key_id)->first();
                     if($managementKeyData){
                         $management_key_id = $managementKeyData['id'];
                     }else{
@@ -543,7 +583,7 @@ class KeyController extends BaseController
                     }
                 }else if(!empty($body->serial_no)){
                     $managementKey = new ManagementKey();
-                    $managementKeyData = $managementKey->where('management_id', $body->management_id)->where('serial_no', $body->serial_no)->first();
+                    $managementKeyData = $managementKey->where('management_id', $management_id)->where('serial_no', $body->serial_no)->first();
                     if($managementKeyData){
                         $management_key_id = $managementKeyData['id'];
                     }else{

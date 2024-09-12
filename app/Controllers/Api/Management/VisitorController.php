@@ -25,8 +25,7 @@ class VisitorController extends BaseController
             'email' => ['rules' => 'required|min_length[4]|max_length[255]|valid_email|is_unique[visitors.email]'],
             'is_covid_or_sickness' => ['rules' => 'permit_empty|in_list[0,1]'],
             'location_service' => ['rules' => 'permit_empty|in_list[0,1]'],
-            'visitor_person' => ['rules' => 'permit_empty'],
-            'management_id' => ['rules' => 'required']
+            'visitor_person' => ['rules' => 'permit_empty']
         ];
 
         $body = json_decode($this->request->getBody());
@@ -85,15 +84,21 @@ class VisitorController extends BaseController
     public function search()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
 
         if ($this->validate($rules)) {
-            
-            
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $db = \Config\Database::connect();
     
                 $visitor_builder = $db->table('visitors');
@@ -125,7 +130,7 @@ class VisitorController extends BaseController
                             
                             $visitorRecord = $db->table('visitor_records');
                             $visitorRecord->where('visitor_id', $result->id);
-                            $visitorRecord->where('management_id', $body->management_id);
+                            $visitorRecord->where('management_id', $management_id);
                             $visitorRecord->orderBy('created_at','DESC');
                             $visitorRecord->limit(1);
                             $getVisitorRecord = $visitorRecord->get();
@@ -175,6 +180,7 @@ class VisitorController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'type' => ['rules' => 'required'],
             'page' => ['rules' => 'required']
         ];
@@ -185,16 +191,21 @@ class VisitorController extends BaseController
             $limit = 10;
             $start = $page * $limit - $limit;
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $db = \Config\Database::connect();
-    
                 $visitor_builder = $db->table('visitor_records');
-                    
                 if($body->type == 'active'){
                     $visitor_builder->where('purpose_entry', 'LOG-IN');
                 }else{
                     $visitor_builder->where('purpose_entry', 'LOG-IN-OUT');
                 }
-                $visitor_builder->where('management_id', $body->management_id);
+                $visitor_builder->where('management_id', $management_id);
                 $visitor_builder->limit($limit, $start);
                 $get_visitor = $visitor_builder->orderBy('created_at','DESC')->get();
                 if ($results = $get_visitor->getResult()) {
@@ -280,13 +291,21 @@ class VisitorController extends BaseController
     public function checkoutNumber()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());
 
         if ($this->validate($rules)) {
             
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $db = \Config\Database::connect();
                 if(!empty($body->mobile_number)){
                     $mobile_number = $body->mobile_number;
@@ -306,7 +325,7 @@ class VisitorController extends BaseController
                     $visitor_name = $visitorRecordsCheck['first_name'].' '.$visitorRecordsCheck['last_name'];
                     
                     $visitorRecords = new VisitorRecords();
-                    $visitorRecords = $visitorRecords->where('visitor_id ', $visitor_id)->where('management_id ', $body->management_id)->where('purpose_entry', 'LOG-IN')->first();
+                    $visitorRecords = $visitorRecords->where('visitor_id ', $visitor_id)->where('management_id ', $management_id)->where('purpose_entry', 'LOG-IN')->first();
                     if($visitorRecords){
                         
                         $visitorRecordKeys = new VisitorRecordKeys();
@@ -355,7 +374,6 @@ class VisitorController extends BaseController
     public function checkoutKey()
     {
         $rules = [
-            'management_id' => ['rules' => 'required'],
             'management_key_id' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());

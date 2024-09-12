@@ -20,15 +20,23 @@ class StaffReportController extends BaseController
     public function filterSelectList()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']            
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
+
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                             ->groupBy('id')
                             ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -46,7 +54,7 @@ class StaffReportController extends BaseController
                 }
 
                 $managementStaff = new ManagementStaff();
-                $managementStaff = $managementStaff->where('management_id', $body->management_id)->orderBy('name','ASC')->get();
+                $managementStaff = $managementStaff->where('management_id', $management_id)->orderBy('name','ASC')->get();
                 $staff = array(); $s=0;
                 if ($results = $managementStaff->getResult()) {
                     foreach ($results as $key => $result) {
@@ -80,17 +88,24 @@ class StaffReportController extends BaseController
     public function filterData()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                             ->groupBy('id')
                             ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -186,17 +201,24 @@ class StaffReportController extends BaseController
     public function currentWeekByName()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                             ->groupBy('id')
                             ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -262,17 +284,24 @@ class StaffReportController extends BaseController
     public function currentWeekByDate()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                             ->groupBy('id')
                             ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -338,16 +367,24 @@ class StaffReportController extends BaseController
     public function currentMonthByName()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
+
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                               ->groupBy('id')
                               ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -413,16 +450,24 @@ class StaffReportController extends BaseController
     public function currentMonthByDate()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
+
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                               ->groupBy('id')
                               ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -488,17 +533,24 @@ class StaffReportController extends BaseController
     public function lastWeekByName()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                             ->groupBy('id')
                             ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -564,17 +616,24 @@ class StaffReportController extends BaseController
     public function lastWeekByDate()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
 
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                             ->groupBy('id')
                             ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -640,14 +699,22 @@ class StaffReportController extends BaseController
     public function lastMonthByName()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
         $body = json_decode($this->request->getBody());
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
+
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                               ->groupBy('id')
                               ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();
@@ -713,16 +780,24 @@ class StaffReportController extends BaseController
     public function lastMonthByDate()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
         ];
 
         $body = json_decode($this->request->getBody());
         
         if ($this->validate($rules)) {
             helper('text');
+            helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
             $db = \Config\Database::connect();
             $managementBuilder = $db->table('management_staff'); 
-            $managementBuilder->where('management_id', $body->management_id)
+            $managementBuilder->where('management_id', $management_id)
                               ->groupBy('id')
                               ->select('id');
             $staffIds = $managementBuilder->get()->getResultArray();

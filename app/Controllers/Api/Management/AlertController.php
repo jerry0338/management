@@ -15,14 +15,22 @@ class AlertController extends BaseController
     public function alertData()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
+
         ];
         $body = json_decode($this->request->getBody());
-
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementAlert = new ManagementAlert();
-                $managementAlert = $managementAlert->where('management_id', $body->management_id)->first();
+                $managementAlert = $managementAlert->where('management_id', $management_id)->first();
                 if (is_null($managementAlert)) {
 
                     $alerts = [
@@ -55,7 +63,7 @@ class AlertController extends BaseController
                     foreach ($alerts as $alert) {
                         $management = new ManagementAlert();
                         $data = [
-                            'management_id' => $body->management_id,
+                            'management_id' => $management_id,
                             'slug' => $alert['slug'],
                             'title' => $alert['title'],
                             'status' => '1',
@@ -65,7 +73,7 @@ class AlertController extends BaseController
                     }
                 }
 
-                $alertData = $this->singleAlertData($body->management_id);
+                $alertData = $this->singleAlertData($management_id);
                 return $this->respond(['status' => 1,'message' => 'Management Alert Data', 'data' => $alertData], 200);
             } catch (Exception $exception) {
                 return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
@@ -111,14 +119,21 @@ class AlertController extends BaseController
     public function keyAlertData()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());
 
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
                 $managementAlert = new ManagementKeyAlert();
-                $managementAlert = $managementAlert->where('management_id', $body->management_id)->first();
+                $managementAlert = $managementAlert->where('management_id', $management_id)->first();
                 if (is_null($managementAlert)) {
 
                     $alerts = [
@@ -135,7 +150,7 @@ class AlertController extends BaseController
                     foreach ($alerts as $alert) {
                         $management = new ManagementKeyAlert();
                         $data = [
-                            'management_id' => $body->management_id,
+                            'management_id' => $management_id,
                             'slug' => $alert['slug'],
                             'title' => $alert['title'],
                             'status' => '1',
@@ -144,7 +159,7 @@ class AlertController extends BaseController
                     }
                 }
 
-                $alertData = $this->singleKeyAlertData($body->management_id);
+                $alertData = $this->singleKeyAlertData($management_id);
                 return $this->respond(['status' => 1,'message' => 'Management Key Alert Data', 'data' => $alertData], 200);
             } catch (Exception $exception) {
                 return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);

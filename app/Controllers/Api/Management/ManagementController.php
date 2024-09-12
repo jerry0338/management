@@ -15,14 +15,22 @@ class ManagementController extends BaseController
     public function managementUniqueKey()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());
 
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementModel = new Management();
-                $management = $managementModel->where('id', $body->management_id)->first();
+                $management = $managementModel->where('id', $management_id)->first();
                 if (is_null($management)) {
                     return $this->respond(['status' => 0, 'message' => 'Management Not available', 'data' => array()], 200);
                 }else{
@@ -73,7 +81,8 @@ class ManagementController extends BaseController
     public function managementPerson()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
@@ -81,8 +90,15 @@ class ManagementController extends BaseController
         if ($this->validate($rules)) {
             try {
                 helper('text');
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementStaff = new ManagementStaff();
-                $managementStaff = $managementStaff->where('id', $body->management_id)->get();
+                $managementStaff = $managementStaff->where('id', $management_id)->get();
                 $data = array(); $d=0;
                 if ($results = $managementStaff->getResult()) {
                     foreach ($results as $key => $result) {
@@ -113,7 +129,6 @@ class ManagementController extends BaseController
     public function visitorAdd()
     {
         $rules = [
-            'management_id' => ['rules' => 'required'],
             'visitor_id' => ['rules' => 'required'],
             'person_id' => ['rules' => 'required']
         ];
@@ -160,6 +175,7 @@ class ManagementController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'visitor_id' => ['rules' => 'required']
         ];
 
@@ -167,8 +183,15 @@ class ManagementController extends BaseController
 
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $visitorRecordsCheck = new VisitorRecords();
-                $visitorRecordsCheck = $visitorRecordsCheck->where('visitor_id', $body->visitor_id)->where('management_id', $body->management_id)->where('purpose_entry', 'LOG-IN')->first();
+                $visitorRecordsCheck = $visitorRecordsCheck->where('visitor_id', $body->visitor_id)->where('management_id', $management_id)->where('purpose_entry', 'LOG-IN')->first();
                 if($visitorRecordsCheck){
                     
                     if($visitorRecordsCheck['management_key_id'] == 0){
@@ -202,6 +225,5 @@ class ManagementController extends BaseController
             return $this->fail($response, 409);
         }
     }
-    
 
 }

@@ -16,7 +16,8 @@ class StaffController extends BaseController
     public function add()
     {
         $rules = [
-            'management_id' => ['rules' => 'required'],
+            'management_id' => ['rules' => 'required'], 
+            'management_type' => ['rules' => 'required'],
             'name' => ['rules' => 'required'],
             'mobile_number' => ['rules' => 'required'],
             'email' => ['rules' => 'required'],
@@ -25,18 +26,25 @@ class StaffController extends BaseController
         $body = json_decode($this->request->getBody());
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementModel = new Management();
                 $management = $managementModel->where('email', $body->email)->first();
                 if (is_null($management)) {
                     $managementStaffs = new ManagementStaff();
-                    $managementStaff = $managementStaffs->where('management_id', $body->management_id)->where('email', $body->email)->first();
+                    $managementStaff = $managementStaffs->where('management_id', $management_id)->where('email', $body->email)->first();
                     if (is_null($managementStaff)) {
                         helper('text'); 
                         $qr_key = random_string('alnum', 16);
                         $password = $body->password ?? '123456';
                         $managementStaff = new ManagementStaff();
                         $data = [
-                            'management_id' => $body->management_id,
+                            'management_id' => $management_id,
                             'name'          => $body->name,
                             'mobile_number' => $body->mobile_number,
                             'email'         => $body->email,
@@ -68,6 +76,7 @@ class StaffController extends BaseController
         $rules = [
             'management_staff_id' => ['rules' => 'required'],
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'name' => ['rules' => 'required'],
             'mobile_number' => ['rules' => 'required'],
             'email' => ['rules' => 'required'],
@@ -78,8 +87,15 @@ class StaffController extends BaseController
 
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementStaff = new ManagementStaff();
-                $management = $managementStaff->where('id NOT LIKE', $body->management_staff_id)->where('management_id', $body->management_id)->where('email', $body->email)->first();
+                $management = $managementStaff->where('id NOT LIKE', $body->management_staff_id)->where('management_id', $management_id)->where('email', $body->email)->first();
                 if (is_null($management)) {
                     $db = \Config\Database::connect();
                     $management_staff = $db->table('management_staff');
@@ -114,6 +130,7 @@ class StaffController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'management_staff_id' => ['rules' => 'required']
         ];
 
@@ -121,12 +138,18 @@ class StaffController extends BaseController
 
         if ($this->validate($rules)) {
             try {
-             
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $db = \Config\Database::connect();
                 $managementStaff = $db->table('management_staff');
                 
                 // Assuming $id contains the ID of the row you want to delete
-                $managementStaff->where('management_id', $body->management_id);
+                $managementStaff->where('management_id', $management_id);
                 $managementStaff->where('id', $body->management_staff_id);
                 if ($managementStaff->delete()){
                     return $this->respond(['status' => 1, 'message' => 'Staff deleted.'], 200);
@@ -148,15 +171,23 @@ class StaffController extends BaseController
     public function list()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
 
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementStaff = new ManagementStaff();
-                $managementStaff = $managementStaff->where('management_id', $body->management_id)->get();
+                $managementStaff = $managementStaff->where('management_id', $management_id)->get();
                 $data = array(); $d=0;
                 if ($results = $managementStaff->getResult()) {
                     foreach ($results as $key => $result) {
@@ -255,15 +286,22 @@ class StaffController extends BaseController
                 $managementModel = new Management();
                 $management = $managementModel->where('email', $body->email)->first();
                 if (is_null($management)) {
+                    helper('common');
+                    if($body->management_type == 'staff'){
+                        $management_id = managementTypeToIdGet($body->management_id);
+                    }else{
+                        $management_id = $body->management_id;
+                    }
+
                     $managementStaffs = new ManagementStaff();
-                    $managementStaff = $managementStaffs->where('management_id', $body->management_id)->where('email', $body->email)->first();
+                    $managementStaff = $managementStaffs->where('management_id', $management_id)->where('email', $body->email)->first();
                     if (is_null($managementStaff)) {
                         helper('text'); 
                         $qr_key = random_string('alnum', 16);
                         $password = $body->password ?? '123456';
                         $managementStaff = new ManagementStaff();
                         $data = [
-                            'management_id' => $body->management_id,
+                            'management_id' => $management_id,
                             'name'          => $body->name,
                             'mobile_number' => $body->mobile_number,
                             'email'         => $body->email,
@@ -283,13 +321,21 @@ class StaffController extends BaseController
     public function signOut()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementLoginModel = new ManagementLogin();
-                $managementLogin = $managementLoginModel->where('staff_id', $body->management_id)->where('status', '0')->first();
+                $managementLogin = $managementLoginModel->where('staff_id', $management_id)->where('status', '0')->first();
                 if (!is_null($managementLogin)) {
 
                     $time1 = $managementLogin['time_in']; 
@@ -330,16 +376,24 @@ class StaffController extends BaseController
     public function history()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
 
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $db = \Config\Database::connect();
                 $managementBuilder = $db->table('management_staff'); 
-                $managementBuilder->where('management_id', $body->management_id)
+                $managementBuilder->where('management_id', $management_id)
                                 ->groupBy('id')
                                 ->select('id');
                 $staffIds = $managementBuilder->get()->getResultArray();

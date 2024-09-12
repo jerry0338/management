@@ -18,19 +18,27 @@ class FormController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'title' => ['rules' => 'required'],
             'form_data' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementForm = new ManagementForm();
-                $management = $managementForm->where('management_id', $body->management_id)->where('title', $body->title)->first();
+                $management = $managementForm->where('management_id', $management_id)->where('title', $body->title)->first();
     
                 if (is_null($management)) {
                     $managementForm = new ManagementForm();
                     $data = [
-                        'management_id'  => $body->management_id,
+                        'management_id'  => $management_id,
                         'title'         => $body->title,
                         'form_data'       => serialize($body->form_data)
                     ];
@@ -56,6 +64,7 @@ class FormController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'management_form_id' => ['rules' => 'required'],
             'title' => ['rules' => 'required'],
             'form_data' => ['rules' => 'required']
@@ -65,8 +74,15 @@ class FormController extends BaseController
 
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementForm = new ManagementForm();
-                $management = $managementForm->where('id NOT LIKE', $body->management_form_id)->where('management_id', $body->management_id)->where('title', $body->title)->first();
+                $management = $managementForm->where('id NOT LIKE', $body->management_form_id)->where('management_id', $management_id)->where('title', $body->title)->first();
                 if (is_null($management)) {
                     $db = \Config\Database::connect();
                     $management_Form = $db->table('management_form');
@@ -100,6 +116,7 @@ class FormController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'management_form_id' => ['rules' => 'required']
         ];
 
@@ -107,12 +124,18 @@ class FormController extends BaseController
 
         if ($this->validate($rules)) {
             try {
-             
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $db = \Config\Database::connect();
                 $managementForm = $db->table('management_form');
                 
                 // Assuming $id contains the ID of the row you want to delete
-                $managementForm->where('management_id', $body->management_id);
+                $managementForm->where('management_id', $management_id);
                 $managementForm->where('id', $body->management_form_id);
                 if ($managementForm->delete()){
                     return $this->respond(['status' => 1, 'message' => 'Form deleted.'], 200);
@@ -134,8 +157,10 @@ class FormController extends BaseController
     
     public function list()
     {
+
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
 
         $body = json_decode($this->request->getBody());
@@ -143,8 +168,15 @@ class FormController extends BaseController
         if ($this->validate($rules)) {
             try {
                 helper('text');
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+                
                 $managementForm = new ManagementForm();
-                $managementForm = $managementForm->where('management_id', $body->management_id)->get();
+                $managementForm = $managementForm->where('management_id', $management_id)->get();
                 $data = array(); $d=0;
                 if ($results = $managementForm->getResult()) {
                     foreach ($results as $key => $result) {
@@ -178,16 +210,23 @@ class FormController extends BaseController
     {
         $rules = [
             'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
             'management_form_id' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
                 $managementForm = new ManagementForm();
                 $management = $managementForm->where('id', $body->management_form_id)->where('status', 1)->first();
                 if (is_null($management)) {
                     $managementForm = new ManagementForm();
-                    $management = $managementForm->where('management_id', $body->management_id)->where('status', 1)->first();
+                    $management = $managementForm->where('management_id', $management_id)->where('status', 1)->first();
                     if (is_null($management)) {
                         $db = \Config\Database::connect();
                         $management_Form = $db->table('management_form');
@@ -231,13 +270,21 @@ class FormController extends BaseController
     public function activeData()
     {
         $rules = [
-            'management_id' => ['rules' => 'required']
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
         ];
         $body = json_decode($this->request->getBody());
         if ($this->validate($rules)) {
             try {
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
                 $managementForm = new ManagementForm();
-                $management = $managementForm->where('management_id', $body->management_id)->where('status', 1)->first();
+                $management = $managementForm->where('management_id', $management_id)->where('status', 1)->first();
                 $data = array();
                 if (is_null($management)) {
                     return $this->respond(['status' => 0,'message' => 'Form not active.'], 200);
