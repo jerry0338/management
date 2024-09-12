@@ -703,6 +703,90 @@ class ReportController extends BaseController
             return $this->respond($response, 409);
         }
     }
+    
+    public function weeklyStaffList()
+    {
+        $rules = [
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']  
+        ];
+
+        $body = json_decode($this->request->getBody());
+        
+        if ($this->validate($rules)) {
+            helper('text');
+            helper('common');
+            if($body->management_type == 'staff'){
+                $management_id = managementTypeToIdGet($body->management_id);
+            }else{
+                $management_id = $body->management_id;
+            }
+
+            $db = \Config\Database::connect();
+            $managementBuilder = $db->table('management_staff'); 
+            $managementBuilder->where('management_id', $management_id)
+                            ->groupBy('id')
+                            ->select('id');
+            $staffIds = $managementBuilder->get()->getResultArray();
+            if (!empty($staffIds)) {
+                
+                $management_login_builder = $db->table('management_login');
+                $startDate = date('Y-m-d', strtotime('this week monday'));
+                $endDate = date('Y-m-d', strtotime('this week sunday'));
+                $management_login_builder->where('management_login.created_at >=', $startDate);
+                $management_login_builder->where('management_login.created_at <=', $endDate);
+                $management_login_builder->whereIn('management_login.staff_id', array_column($staffIds, 'id'));
+                $management_login_builder->join('management_staff', 'management_login.staff_id = management_staff.id', 'inner');
+                $managementLogin = $management_login_builder->orderBy('management_login.date','DESC')->get();
+                if ($results = $managementLogin->getResult()) {
+                    $data = array(); $d=0;
+                    foreach ($results as $key => $result) {
+                        
+                        $data[$d]['staff_id'] = $result->staff_id;
+                        $data[$d]['name'] = $result->name;
+                        $data[$d]['mobile_number'] = $result->mobile_number;
+                        $data[$d]['date'] = $result->date;
+                        $data[$d]['time_in'] = $result->time_in;
+                        $data[$d]['time_out'] = $result->time_out != '00:00:00' ? $result->total_time : '-';
+                        $data[$d]['total_time'] = $result->total_time != '' ? $result->total_time : '-';
+                        $d++;
+                    }
+                    $dompdf = new Dompdf();
+                    $html = view('report/weekly_staff_list', ['data' => $data]);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('A4', 'landscape');
+                    $dompdf->render();
+                    $filename = 'Management_weekly_staff_list_'.date('Ymd').time().'.pdf';
+                    $originalPath = 'pdf/';
+                
+                    $folderName = date('Ym');
+                    $path = $originalPath.$folderName;
+                    // Ensure the directory exists
+                    if (!is_dir($path)) {
+                        mkdir($path, 0755, true);
+                    }
+                    $file_path = $path.'/'.$filename;
+                    // Write the file using native PHP file handling
+                    if(file_put_contents($file_path, $dompdf->output())){
+                        return $this->respond(['status' => 1, 'message' => 'Weekly Staff report', 'url' => base_url($file_path)], 200);
+                    }else{
+                        return $this->respond(['status' => 0,'message' => 'Failed to generate PDF', 'url' => ''], 200);
+                    }
+                }else{
+                    return $this->respond(['status' => 0,'message' => 'No staff data found', 'url' => ''], 200);
+                }
+            }else{
+                return $this->respond(['status' => 0,'message' => 'No staff data found', 'url' => ''], 200);
+            }
+        } else {
+            $response = [
+                'status' => 0,
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->respond($response, 409);
+        }
+    }
     public function staffKey()
     {
         $rules = [
@@ -720,65 +804,57 @@ class ReportController extends BaseController
             }else{
                 $management_id = $body->management_id;
             }
+
             $db = \Config\Database::connect();
-            $managementKey = new ManagementKey();
-            $managementKey = $managementKey->where('management_id', $management_id)->get();
-            if ($results = $managementKey->getResult()) {
-                $data = array(); $d=0;
-                foreach ($results as $key => $result) {
-                    
-                    
-                    $visitorRecordKeys = new VisitorRecordKeys();
-                    
-                    $visitorRecordKeysData = $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')->join('visitors', 'visitors.id = visitor_records.visitor_id')->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id')->where('visitor_record_keys.management_key_id', $result->id)->where('visitor_record_keys.status', 0)->first();
+
+            $managementBuilder = $db->table('management_staff'); 
+            $managementBuilder->where('management_id', $management_id)
+                            ->groupBy('id')
+                            ->select('id');
+            $staffIds = $managementBuilder->get()->getResultArray();
+            if (!empty($staffIds)) {
+                $management_key_builder = $db->table('management_key');
+                $management_key_builder->whereIn('management_key.staff_id', array_column($staffIds, 'id'));
+                $management_key_builder->join('management_staff', 'management_key.staff_id = management_staff.id', 'inner');
+                $managementKey = $management_key_builder->orderBy('management_key.created_at','DESC')->get();
+                if ($results = $managementKey->getResult()) {
+                    $data = array(); $d=0;
+                    foreach ($results as $key => $result) {
+                        $data[$d]['staff_id'] = $result->staff_id;
+                        $data[$d]['name'] = $result->name;
+                        $data[$d]['mobile_number'] = $result->mobile_number;
+                        $data[$d]['key_id'] = $result->key_id;
+                        $data[$d]['serial_no'] = $result->serial_no;
+                        $data[$d]['key_type'] = $result->key_type;
+                        $data[$d]['date'] = $result->created_at;                                        
+                        $d++;
+                    }
+                    $dompdf = new Dompdf();
+                    $html = view('report/staff_key_list', ['data' => $data]);
+                    $dompdf->loadHtml($html);
+                    $dompdf->setPaper('A4', 'landscape');
+                    $dompdf->render();
+                    $filename = 'Management_staff_key_list_'.date('Ymd').time().'.pdf';
+                    $originalPath = 'pdf/';
                 
-                    $data[$d]['key_id'] = $result->key_id;
-                    $data[$d]['serial_no'] = $result->serial_no;
-                    $data[$d]['key_type'] = $result->key_type;
-                    if($visitorRecordKeysData){
-                        $data[$d]['key_loan'] = 'Y';
-                        
-                        $data[$d]['person_type'] = $visitorRecordKeysData['type'];
-                        $data[$d]['name'] = $visitorRecordKeysData['first_name'].' '.$visitorRecordKeysData['last_name'];
-                        $data[$d]['company'] = $visitorRecordKeysData['company_name'];
-                        
-                        $loan_period = date_add(date_create($visitorRecordKeysData['created_at']), date_interval_create_from_date_string($visitorRecordKeysData['loan_period']));
-                        $data[$d]['key_out'] = date_format($loan_period, 'd/m/Y h:ia');
-                        $data[$d]['loan_length'] =  $visitorRecordKeysData['loan_period'];
+                    $folderName = date('Ym');
+                    $path = $originalPath.$folderName;
+                    // Ensure the directory exists
+                    if (!is_dir($path)) {
+                        mkdir($path, 0755, true);
+                    }
+                    $file_path = $path.'/'.$filename;
+                    // Write the file using native PHP file handling
+                    if(file_put_contents($file_path, $dompdf->output())){
+                        return $this->respond(['status' => 1, 'message' => 'Staff Key report', 'url' => base_url($file_path)], 200);
                     }else{
-                        $data[$d]['key_loan'] = 'N';
-                        
-                        $data[$d]['person_type'] = 'n/a';
-                        $data[$d]['name'] = 'n/a';
-                        $data[$d]['company'] = 'n/a';
-                        $data[$d]['key_out'] = 'n/a';
-                        $data[$d]['loan_length'] = 'n/a';
-                    }                    
-                    $d++;
-                }
-                $dompdf = new Dompdf();
-                $html = view('report/end_of_day_key', ['data' => $data]);
-                $dompdf->loadHtml($html);
-                $dompdf->setPaper('A4', 'landscape');
-                $dompdf->render();
-                $filename = 'Management_end_of_day_key_'.date('Ymd').time().'.pdf';
-                $originalPath = 'pdf/';
-            
-                $folderName = date('Ym');
-                $path = $originalPath.$folderName;
-                // Ensure the directory exists
-                if (!is_dir($path)) {
-                    mkdir($path, 0755, true);
-                }
-                $file_path = $path.'/'.$filename;
-                // Write the file using native PHP file handling
-                if(file_put_contents($file_path, $dompdf->output())){
-                    return $this->respond(['status' => 1, 'message' => 'End of day Key report', 'url' => base_url($file_path)], 200);
+                        return $this->respond(['status' => 0,'message' => 'Failed to generate PDF', 'url' => ''], 200);
+                    }
                 }else{
-                    return $this->respond(['status' => 0,'message' => 'Failed to generate PDF', 'url' => ''], 200);
+                    return $this->respond(['status' => 0,'message' => 'No Staff key found', 'url' => ''], 200);
                 }
             }else{
-                return $this->respond(['status' => 0,'message' => 'No key Record found', 'url' => ''], 200);
+                return $this->respond(['status' => 0,'message' => 'No Staff key found', 'url' => ''], 200);
             }
         } else {
             $response = [
@@ -789,4 +865,25 @@ class ReportController extends BaseController
             return $this->respond($response, 409);
         }
     }
+
+    public function rollCallList(){
+        $rules = [
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
+        ];
+
+        $body = json_decode($this->request->getBody());
+        
+        if ($this->validate($rules)) {
+            return $this->respond(['status' => 0,'message' => 'No Roll Call Record found', 'url' => ''], 200);
+        } else {
+            $response = [
+                'status' => 0,
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->respond($response, 409);
+        }
+    }
+
 }

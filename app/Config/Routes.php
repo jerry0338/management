@@ -94,6 +94,8 @@ $routes->group("api", function ($routes) {
             $routes->post("keyOnLoan", "ReportController::keyOnLoan");
             $routes->post("allKeyList", "ReportController::allKeyList");
             $routes->post("endOfDayKey", "ReportController::endOfDayKey");
+            $routes->post("weeklyStaffList", "ReportController::weeklyStaffList"); 
+            $routes->post("rollCallList", "ReportController::rollCallList");             
             $routes->post("staffKey", "ReportController::staffKey");
         });
 

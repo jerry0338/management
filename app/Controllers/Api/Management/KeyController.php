@@ -31,8 +31,10 @@ class KeyController extends BaseController
                 helper('common');
                 if($body->management_type == 'staff'){
                     $management_id = managementTypeToIdGet($body->management_id);
+                    $staff_id = $body->management_id;
                 }else{
                     $management_id = $body->management_id;
+                    $staff_id = NULL;
                 }
 
                 $manageData = $this->managementRecordFind($management_id);
@@ -46,7 +48,8 @@ class KeyController extends BaseController
                         'management_id'  => $management_id,
                         'key_id'         => $body->key_id,
                         'serial_no'       => $body->serial_no,
-                        'key_type'       => $body->key_type ?? ''
+                        'key_type'       => $body->key_type ?? '',
+                        'staff_id'       => $staff_id
                     ];
                 
                     $managementKey->insert($data);
