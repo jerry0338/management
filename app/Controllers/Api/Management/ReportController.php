@@ -865,7 +865,6 @@ class ReportController extends BaseController
             return $this->respond($response, 409);
         }
     }
-
     public function rollCallList(){
         $rules = [
             'management_id' => ['rules' => 'required'],
