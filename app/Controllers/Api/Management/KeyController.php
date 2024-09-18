@@ -353,6 +353,85 @@ class KeyController extends BaseController
         }
     }
     
+    public function userList()
+    {
+        $rules = [
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required']
+        ];
+
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+            try {
+                helper('text');
+                helper('common');
+                if($body->management_type == 'staff'){
+                    $management_id = managementTypeToIdGet($body->management_id);
+                }else{
+                    $management_id = $body->management_id;
+                }
+
+                $managementKey = new ManagementKey();
+                $managementKey = $managementKey->where('management_id', $management_id)->where('staff_id', '!=', '')->get();
+                $data = array(); $d=0;
+                if ($results = $managementKey->getResult()) {
+                    foreach ($results as $key => $result) {
+                        $data[$d]['management_key_id'] = $result->id;
+                        $data[$d]['key_id'] = $result->key_id;
+                        $data[$d]['serial_no'] = $result->serial_no;
+                        $data[$d]['key_type'] = $result->key_type;
+                        
+                        $visitorRecordKeys = new VisitorRecordKeys();
+                        
+                        $visitorRecordKeysData = $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')->join('visitors', 'visitors.id = visitor_records.visitor_id')->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id')->where('visitor_record_keys.management_key_id', $result->id)->where('visitor_record_keys.status', 0)->first();
+                
+                        if($visitorRecordKeysData){
+                            $data[$d]['key_loan'] = true;
+                            
+                            $data[$d]['person_type'] = $visitorRecordKeysData['type'];
+                            $data[$d]['name'] = $visitorRecordKeysData['first_name'].' '.$visitorRecordKeysData['last_name'];
+                            $data[$d]['company'] = $visitorRecordKeysData['company_name'];
+                            
+                            $loan_period = date_add(date_create($visitorRecordKeysData['created_at']), date_interval_create_from_date_string($visitorRecordKeysData['loan_period']));
+                            $data[$d]['date_out'] = date_format($loan_period, 'd/m/Y');
+                            $data[$d]['time_out'] = date_format($loan_period, 'h:ia');
+                            $data[$d]['overdue'] = 'yes';
+                            $data[$d]['loan_length'] =  $visitorRecordKeysData['loan_period'];
+                        }else{
+                            $data[$d]['key_loan'] = false;
+                            
+                            $data[$d]['person_type'] = 'n/a';
+                            $data[$d]['name'] = 'n/a';
+                            $data[$d]['company'] = 'n/a';
+                            $data[$d]['date_out'] = 'n/a';
+                            $data[$d]['time_out'] = 'n/a';
+                            $data[$d]['overdue'] = 'n/a';
+                            $data[$d]['loan_length'] = 'n/a';
+                        }
+                        $data[$d]['created_at'] = $result->created_at;
+                        
+                        $d++;
+                    }
+                }
+                
+                if(sizeof($data) > 0){
+                    return $this->respond(['status' => 1, 'message' => 'Key data', 'data' => $data], 200);
+                }else{
+                    return $this->respond(['status' => 0, 'message' => 'No Key data found ', 'data' => array()], 200);
+                }
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+    
     public function history()
     {
         $rules = [

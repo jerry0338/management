@@ -125,6 +125,69 @@ class ManagementController extends BaseController
             return $this->fail($response, 409);
         }
     }
+
+    public function managementPin()
+    {
+        $rules = [
+            'management_id' => ['rules' => 'required']
+        ];
+        $body = json_decode($this->request->getBody());
+        helper('text'); 
+        if ($this->validate($rules)) {
+            try {
+                $managementModel = new Management();
+                $management = $managementModel->where('id', $body->management_id)->first();
+                if (is_null($management)) {
+                    return $this->respond(['status' => 0, 'message' => 'Management Not available', 'data' => array()], 200);
+                }else{
+                    $data['pin'] = $management['pin'];
+                    return $this->respond(['status' => 1,'message' => 'Management pin code', 'data' => $data], 200);
+                }
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+
+    public function managementPinUpdate()
+    {
+        $rules = [
+            'management_id' => ['rules' => 'required'],
+            'pin' => ['rules' => 'required'],
+        ];
+        $body = json_decode($this->request->getBody());
+        helper('text'); 
+        if ($this->validate($rules)) {
+            try {
+                $db = \Config\Database::connect();
+                $management = $db->table('management');
+                $management = $management->where('id', $body->management_id);
+                $data = [
+                    'pin'  => $body->pin
+                ];
+    
+                if($management->update($data)){
+                    return $this->respond(['status' => 1,'message' => 'Management pin updated successfully'], 200);
+                }else{
+                    return $this->respond(['status' => 0, 'message' => 'Management Not available', 'data' => array()], 200);
+                }                    
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
     
     public function visitorAdd()
     {

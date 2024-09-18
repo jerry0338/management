@@ -24,18 +24,22 @@ $routes->group("api", function ($routes) {
         $routes->post("forgotPassword", "AuthController::forgotPassword");
         $routes->post("codeCheck", "AuthController::codeCheck");
         $routes->post("updatePassword", "AuthController::updatePassword");
-        
+                
         $routes->post("managementUniqueKey", "ManagementController::managementUniqueKey");
         $routes->post("managementUniqueKeyToId", "ManagementController::managementUniqueKeyToId");
         $routes->post("managementPerson", "ManagementController::managementPerson");
         $routes->post("visitorAdd", "ManagementController::visitorAdd");
         $routes->post("visitorOut", "ManagementController::visitorOut");
+
+        $routes->post("managementPin", "ManagementController::managementPin");
+        $routes->post("managementPinUpdate", "ManagementController::managementPinUpdate");
         
         $routes->group("keys", function ($routes) {
             $routes->post("add", "KeyController::add");
             $routes->post("edit", "KeyController::edit");
             $routes->post("delete", "KeyController::delete");
             $routes->post("list", "KeyController::list");
+            $routes->post("userList", "KeyController::userList");
             $routes->post("list1", "KeyController::list1");
             $routes->post("history", "KeyController::history");
             $routes->post("assign", "KeyController::assign");
