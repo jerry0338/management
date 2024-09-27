@@ -1,0 +1,353 @@
+CRITICAL - 2024-09-27 04:42:16 --> CodeIgniter\HTTP\Exceptions\HTTPException: Failed to parse JSON string. Error: Syntax error
+[Method: POST, Route: api/management/keys/history]
+in SYSTEMPATH\HTTP\IncomingRequest.php on line 537.
+ 1 SYSTEMPATH\HTTP\IncomingRequest.php(537): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidJSON('Syntax error')
+ 2 SYSTEMPATH\Validation\Validation.php(509): CodeIgniter\HTTP\IncomingRequest->getJSON(true)
+ 3 SYSTEMPATH\Controller.php(137): CodeIgniter\Validation\Validation->withRequest(Object(CodeIgniter\HTTP\IncomingRequest))
+ 4 APPPATH\Controllers\Api\Management\KeyController.php(476): CodeIgniter\Controller->validate([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->history()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 04:42:41 --> CodeIgniter\HTTP\Exceptions\HTTPException: Failed to parse JSON string. Error: Syntax error
+[Method: POST, Route: api/management/keys/history]
+in SYSTEMPATH\HTTP\IncomingRequest.php on line 537.
+ 1 SYSTEMPATH\HTTP\IncomingRequest.php(537): CodeIgniter\HTTP\Exceptions\HTTPException::forInvalidJSON('Syntax error')
+ 2 SYSTEMPATH\Validation\Validation.php(509): CodeIgniter\HTTP\IncomingRequest->getJSON(true)
+ 3 SYSTEMPATH\Controller.php(137): CodeIgniter\Validation\Validation->withRequest(Object(CodeIgniter\HTTP\IncomingRequest))
+ 4 APPPATH\Controllers\Api\Management\KeyController.php(476): CodeIgniter\Controller->validate([...])
+ 5 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->history()
+ 6 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 7 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 8 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 9 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+10 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+11 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+ERROR - 2024-09-27 04:49:14 --> mysqli_sql_exception: Unknown column 'management_key.serial_no' in 'where clause' in C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php:312
+Stack trace:
+#0 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\MySQLi\Connection.php(312): mysqli->query('SELECT `visitor...', 0)
+#1 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `visitor...')
+#2 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `visitor...')
+#3 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT `visitor...', Array, false)
+#4 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Model.php(930): CodeIgniter\Database\BaseBuilder->get()
+#5 C:\xampp\htdocs\management\app\Controllers\Api\Management\KeyController.php(609): CodeIgniter\Model->__call('get', Array)
+#6 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->history()
+#7 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+#8 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(NULL, Object(Config\Cache), false)
+#9 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Boot.php(325): CodeIgniter\CodeIgniter->run()
+#10 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+#11 C:\xampp\htdocs\management\public\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+#12 C:\xampp\htdocs\management\vendor\codeigniter4\framework\system\rewrite.php(44): require_once('C:\\xampp\\htdocs...')
+#13 {main}
+CRITICAL - 2024-09-27 04:49:14 --> CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'management_key.serial_no' in 'where clause'
+[Method: POST, Route: api/management/keys/history]
+in SYSTEMPATH\Database\BaseConnection.php on line 688.
+ 1 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT `visitor_record_keys`.*, `visitors`.`first_name`, `visitors`.`last_name`, `visitors`.`company_name`, `visitor_type`.`type`
+FROM `visitor_record_keys`
+JOIN `visitor_records` ON `visitor_records`.`id` = `visitor_record_keys`.`records_id`
+JOIN `visitors` ON `visitors`.`id` = `visitor_records`.`visitor_id`
+JOIN `visitor_type` ON `visitor_type`.`id` = `visitors`.`visitor_type_id`
+WHERE `visitor_record_keys`.`management_key_id` = :visitor_record_keys.management_key_id:
+AND   (
+`visitors`.`first_name` LIKE :visitors.first_name: ESCAPE \'!\'
+OR  `visitors`.`last_name` LIKE :visitors.last_name: ESCAPE \'!\'
+OR  `visitors`.`company_name` LIKE :visitors.company_name: ESCAPE \'!\'
+OR  `visitor_type`.`type` LIKE :visitor_type.type: ESCAPE \'!\'
+OR  `visitor_record_keys`.`created_at` LIKE :visitor_record_keys.created_at: ESCAPE \'!\'
+OR  `management_key`.`serial_no` LIKE :management_key.serial_no: ESCAPE \'!\'
+OR  `management_key`.`key_id` LIKE :management_key.key_id: ESCAPE \'!\'
+OR  `management_key`.`key_type` LIKE :management_key.key_type: ESCAPE \'!\'
+ )
+ORDER BY `visitor_record_keys`.`created_at` DESC', [...], false)
+ 2 SYSTEMPATH\Model.php(930): CodeIgniter\Database\BaseBuilder->get()
+ 3 APPPATH\Controllers\Api\Management\KeyController.php(609): CodeIgniter\Model->__call('get', [])
+ 4 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->history()
+ 5 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 04:49:14 --> [Caused by] CodeIgniter\Database\Exceptions\DatabaseException: Unknown column 'management_key.serial_no' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 317.
+ 1 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `visitor_record_keys`.*, `visitors`.`first_name`, `visitors`.`last_name`, `visitors`.`company_name`, `visitor_type`.`type`
+FROM `visitor_record_keys`
+JOIN `visitor_records` ON `visitor_records`.`id` = `visitor_record_keys`.`records_id`
+JOIN `visitors` ON `visitors`.`id` = `visitor_records`.`visitor_id`
+JOIN `visitor_type` ON `visitor_type`.`id` = `visitors`.`visitor_type_id`
+WHERE `visitor_record_keys`.`management_key_id` = \'6\'
+AND   (
+`visitors`.`first_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`last_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`company_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_type`.`type` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_record_keys`.`created_at` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`serial_no` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_id` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_type` LIKE \'%abc%\' ESCAPE \'!\'
+ )
+ORDER BY `visitor_record_keys`.`created_at` DESC')
+ 2 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `visitor_record_keys`.*, `visitors`.`first_name`, `visitors`.`last_name`, `visitors`.`company_name`, `visitor_type`.`type`
+FROM `visitor_record_keys`
+JOIN `visitor_records` ON `visitor_records`.`id` = `visitor_record_keys`.`records_id`
+JOIN `visitors` ON `visitors`.`id` = `visitor_records`.`visitor_id`
+JOIN `visitor_type` ON `visitor_type`.`id` = `visitors`.`visitor_type_id`
+WHERE `visitor_record_keys`.`management_key_id` = \'6\'
+AND   (
+`visitors`.`first_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`last_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`company_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_type`.`type` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_record_keys`.`created_at` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`serial_no` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_id` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_type` LIKE \'%abc%\' ESCAPE \'!\'
+ )
+ORDER BY `visitor_record_keys`.`created_at` DESC')
+ 3 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT `visitor_record_keys`.*, `visitors`.`first_name`, `visitors`.`last_name`, `visitors`.`company_name`, `visitor_type`.`type`
+FROM `visitor_record_keys`
+JOIN `visitor_records` ON `visitor_records`.`id` = `visitor_record_keys`.`records_id`
+JOIN `visitors` ON `visitors`.`id` = `visitor_records`.`visitor_id`
+JOIN `visitor_type` ON `visitor_type`.`id` = `visitors`.`visitor_type_id`
+WHERE `visitor_record_keys`.`management_key_id` = :visitor_record_keys.management_key_id:
+AND   (
+`visitors`.`first_name` LIKE :visitors.first_name: ESCAPE \'!\'
+OR  `visitors`.`last_name` LIKE :visitors.last_name: ESCAPE \'!\'
+OR  `visitors`.`company_name` LIKE :visitors.company_name: ESCAPE \'!\'
+OR  `visitor_type`.`type` LIKE :visitor_type.type: ESCAPE \'!\'
+OR  `visitor_record_keys`.`created_at` LIKE :visitor_record_keys.created_at: ESCAPE \'!\'
+OR  `management_key`.`serial_no` LIKE :management_key.serial_no: ESCAPE \'!\'
+OR  `management_key`.`key_id` LIKE :management_key.key_id: ESCAPE \'!\'
+OR  `management_key`.`key_type` LIKE :management_key.key_type: ESCAPE \'!\'
+ )
+ORDER BY `visitor_record_keys`.`created_at` DESC', [...], false)
+ 4 SYSTEMPATH\Model.php(930): CodeIgniter\Database\BaseBuilder->get()
+ 5 APPPATH\Controllers\Api\Management\KeyController.php(609): CodeIgniter\Model->__call('get', [])
+ 6 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->history()
+ 7 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 8 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 9 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+10 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+11 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+12 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 04:49:14 --> [Caused by] mysqli_sql_exception: Unknown column 'management_key.serial_no' in 'where clause'
+in SYSTEMPATH\Database\MySQLi\Connection.php on line 312.
+ 1 SYSTEMPATH\Database\MySQLi\Connection.php(312): mysqli->query('SELECT `visitor_record_keys`.*, `visitors`.`first_name`, `visitors`.`last_name`, `visitors`.`company_name`, `visitor_type`.`type`
+FROM `visitor_record_keys`
+JOIN `visitor_records` ON `visitor_records`.`id` = `visitor_record_keys`.`records_id`
+JOIN `visitors` ON `visitors`.`id` = `visitor_records`.`visitor_id`
+JOIN `visitor_type` ON `visitor_type`.`id` = `visitors`.`visitor_type_id`
+WHERE `visitor_record_keys`.`management_key_id` = \'6\'
+AND   (
+`visitors`.`first_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`last_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`company_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_type`.`type` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_record_keys`.`created_at` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`serial_no` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_id` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_type` LIKE \'%abc%\' ESCAPE \'!\'
+ )
+ORDER BY `visitor_record_keys`.`created_at` DESC', 0)
+ 2 SYSTEMPATH\Database\BaseConnection.php(734): CodeIgniter\Database\MySQLi\Connection->execute('SELECT `visitor_record_keys`.*, `visitors`.`first_name`, `visitors`.`last_name`, `visitors`.`company_name`, `visitor_type`.`type`
+FROM `visitor_record_keys`
+JOIN `visitor_records` ON `visitor_records`.`id` = `visitor_record_keys`.`records_id`
+JOIN `visitors` ON `visitors`.`id` = `visitor_records`.`visitor_id`
+JOIN `visitor_type` ON `visitor_type`.`id` = `visitors`.`visitor_type_id`
+WHERE `visitor_record_keys`.`management_key_id` = \'6\'
+AND   (
+`visitors`.`first_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`last_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`company_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_type`.`type` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_record_keys`.`created_at` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`serial_no` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_id` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_type` LIKE \'%abc%\' ESCAPE \'!\'
+ )
+ORDER BY `visitor_record_keys`.`created_at` DESC')
+ 3 SYSTEMPATH\Database\BaseConnection.php(648): CodeIgniter\Database\BaseConnection->simpleQuery('SELECT `visitor_record_keys`.*, `visitors`.`first_name`, `visitors`.`last_name`, `visitors`.`company_name`, `visitor_type`.`type`
+FROM `visitor_record_keys`
+JOIN `visitor_records` ON `visitor_records`.`id` = `visitor_record_keys`.`records_id`
+JOIN `visitors` ON `visitors`.`id` = `visitor_records`.`visitor_id`
+JOIN `visitor_type` ON `visitor_type`.`id` = `visitors`.`visitor_type_id`
+WHERE `visitor_record_keys`.`management_key_id` = \'6\'
+AND   (
+`visitors`.`first_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`last_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitors`.`company_name` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_type`.`type` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `visitor_record_keys`.`created_at` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`serial_no` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_id` LIKE \'%abc%\' ESCAPE \'!\'
+OR  `management_key`.`key_type` LIKE \'%abc%\' ESCAPE \'!\'
+ )
+ORDER BY `visitor_record_keys`.`created_at` DESC')
+ 4 SYSTEMPATH\Database\BaseBuilder.php(1636): CodeIgniter\Database\BaseConnection->query('SELECT `visitor_record_keys`.*, `visitors`.`first_name`, `visitors`.`last_name`, `visitors`.`company_name`, `visitor_type`.`type`
+FROM `visitor_record_keys`
+JOIN `visitor_records` ON `visitor_records`.`id` = `visitor_record_keys`.`records_id`
+JOIN `visitors` ON `visitors`.`id` = `visitor_records`.`visitor_id`
+JOIN `visitor_type` ON `visitor_type`.`id` = `visitors`.`visitor_type_id`
+WHERE `visitor_record_keys`.`management_key_id` = :visitor_record_keys.management_key_id:
+AND   (
+`visitors`.`first_name` LIKE :visitors.first_name: ESCAPE \'!\'
+OR  `visitors`.`last_name` LIKE :visitors.last_name: ESCAPE \'!\'
+OR  `visitors`.`company_name` LIKE :visitors.company_name: ESCAPE \'!\'
+OR  `visitor_type`.`type` LIKE :visitor_type.type: ESCAPE \'!\'
+OR  `visitor_record_keys`.`created_at` LIKE :visitor_record_keys.created_at: ESCAPE \'!\'
+OR  `management_key`.`serial_no` LIKE :management_key.serial_no: ESCAPE \'!\'
+OR  `management_key`.`key_id` LIKE :management_key.key_id: ESCAPE \'!\'
+OR  `management_key`.`key_type` LIKE :management_key.key_type: ESCAPE \'!\'
+ )
+ORDER BY `visitor_record_keys`.`created_at` DESC', [...], false)
+ 5 SYSTEMPATH\Model.php(930): CodeIgniter\Database\BaseBuilder->get()
+ 6 APPPATH\Controllers\Api\Management\KeyController.php(609): CodeIgniter\Model->__call('get', [])
+ 7 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->history()
+ 8 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 9 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+10 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+11 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+12 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+13 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 05:05:26 --> ParseError: syntax error, unexpected identifier "management_id", expecting "]"
+[Method: POST, Route: api/management/keys/list]
+in APPPATH\Controllers\Api\Management\KeyController.php on line 423.
+ 1 SYSTEMPATH\Autoloader\Autoloader.php(296): CodeIgniter\Autoloader\Autoloader->includeFile('C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\KeyController.php')
+ 2 SYSTEMPATH\Autoloader\Autoloader.php(272): CodeIgniter\Autoloader\Autoloader->loadInNamespace('App\\Controllers\\Api\\Management\\KeyController')
+ 3 [internal function]: CodeIgniter\Autoloader\Autoloader->loadClass('App\\Controllers\\Api\\Management\\KeyController')
+ 4 SYSTEMPATH\CodeIgniter.php(887): class_exists('\\App\\Controllers\\Api\\Management\\KeyController', true)
+ 5 SYSTEMPATH\CodeIgniter.php(496): CodeIgniter\CodeIgniter->startController()
+ 6 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 7 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 8 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 9 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+10 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 05:12:16 --> ErrorException: Undefined property: stdClass::$status
+[Method: POST, Route: api/management/keys/list]
+in APPPATH\Controllers\Api\Management\KeyController.php on line 371.
+ 1 APPPATH\Controllers\Api\Management\KeyController.php(371): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$status', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\KeyController.php', 371)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->list()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 05:12:54 --> ErrorException: Undefined property: stdClass::$loan_period
+[Method: POST, Route: api/management/keys/list]
+in APPPATH\Controllers\Api\Management\KeyController.php on line 381.
+ 1 APPPATH\Controllers\Api\Management\KeyController.php(381): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$loan_period', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\KeyController.php', 381)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->list()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-27 05:27:11 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH\Controllers\Api\Visitor\AuthController.php on line 159.
+ 1 APPPATH\Controllers\Api\Visitor\AuthController.php(159): json_decode(null)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Visitor\AuthController->register()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Visitor\AuthController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 06:20:07 --> ErrorException: Undefined array key 1
+[Method: POST, Route: api/visitor/register]
+in APPPATH\Controllers\Api\Visitor\AuthController.php on line 171.
+ 1 APPPATH\Controllers\Api\Visitor\AuthController.php(171): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined array key 1', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Visitor\\AuthController.php', 171)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Visitor\AuthController->register()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Visitor\AuthController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 06:20:30 --> ErrorException: Undefined property: stdClass::$form_data
+[Method: POST, Route: api/visitor/register]
+in APPPATH\Controllers\Api\Visitor\AuthController.php on line 200.
+ 1 APPPATH\Controllers\Api\Visitor\AuthController.php(200): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$form_data', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Visitor\\AuthController.php', 200)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Visitor\AuthController->register()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Visitor\AuthController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 06:20:54 --> ErrorException: Undefined property: stdClass::$form_data
+[Method: POST, Route: api/visitor/register]
+in APPPATH\Controllers\Api\Visitor\AuthController.php on line 200.
+ 1 APPPATH\Controllers\Api\Visitor\AuthController.php(200): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined property: stdClass::$form_data', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Visitor\\AuthController.php', 200)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Visitor\AuthController->register()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Visitor\AuthController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+CRITICAL - 2024-09-27 06:28:10 --> ErrorException: Undefined variable $filePath
+[Method: POST, Route: api/management/visitor/records]
+in APPPATH\Controllers\Api\Management\VisitorController.php on line 254.
+ 1 APPPATH\Controllers\Api\Management\VisitorController.php(254): CodeIgniter\Debug\Exceptions->errorHandler(2, 'Undefined variable $filePath', 'C:\\xampp\\htdocs\\management\\app\\Controllers\\Api\\Management\\VisitorController.php', 254)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\VisitorController->records()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\VisitorController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-27 06:48:53 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH\Controllers\Api\Management\KeyController.php on line 303.
+ 1 APPPATH\Controllers\Api\Management\KeyController.php(303): json_decode(null)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\KeyController->userList()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\KeyController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-27 07:15:40 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-27 07:16:09 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-27 07:19:41 --> [DEPRECATED] Creation of dynamic property App\Controllers\Api\Management\StaffReportController::$parser is deprecated in APPPATH\Controllers\Api\Management\StaffReportController.php on line 17.
+ 1 SYSTEMPATH\CodeIgniter.php(903): App\Controllers\Api\Management\StaffReportController->__construct()
+ 2 SYSTEMPATH\CodeIgniter.php(500): CodeIgniter\CodeIgniter->createController()
+ 3 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 4 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 5 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 6 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 7 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-27 07:22:33 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH\Controllers\Api\Management\StaffController.php on line 227.
+ 1 APPPATH\Controllers\Api\Management\StaffController.php(227): json_decode(null)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffController->view()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')
+WARNING - 2024-09-27 07:27:12 --> [DEPRECATED] json_decode(): Passing null to parameter #1 ($json) of type string is deprecated in APPPATH\Controllers\Api\Management\StaffController.php on line 287.
+ 1 APPPATH\Controllers\Api\Management\StaffController.php(287): json_decode(null)
+ 2 SYSTEMPATH\CodeIgniter.php(933): App\Controllers\Api\Management\StaffController->staffWeekSchedule()
+ 3 SYSTEMPATH\CodeIgniter.php(509): CodeIgniter\CodeIgniter->runController(Object(App\Controllers\Api\Management\StaffController))
+ 4 SYSTEMPATH\CodeIgniter.php(355): CodeIgniter\CodeIgniter->handleRequest(null, Object(Config\Cache), false)
+ 5 SYSTEMPATH\Boot.php(325): CodeIgniter\CodeIgniter->run()
+ 6 SYSTEMPATH\Boot.php(67): CodeIgniter\Boot::runCodeIgniter(Object(CodeIgniter\CodeIgniter))
+ 7 FCPATH\index.php(56): CodeIgniter\Boot::bootWeb(Object(Config\Paths))
+ 8 SYSTEMPATH\rewrite.php(44): require_once('C:\\xampp\\htdocs\\management\\public\\index.php')

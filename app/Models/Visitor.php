@@ -23,6 +23,7 @@ class Visitor extends Model
         'wwcc',
         'mobile_number',
         'photo',
+        'form_data',
         'location_service',
         'is_covid_or_sickness',
         'email',

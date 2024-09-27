@@ -17,6 +17,7 @@ class Management extends Model
         'unique_key',
         'first_name',
         'last_name',
+        'profile_image',
         'mobile_number',
         'title',
         'image',

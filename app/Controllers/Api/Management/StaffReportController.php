@@ -93,7 +93,6 @@ class StaffReportController extends BaseController
         ];
 
         $body = json_decode($this->request->getBody());
-        
         if ($this->validate($rules)) {
             helper('text');
             helper('common');
@@ -163,11 +162,11 @@ class StaffReportController extends BaseController
                         $d++;
                     }
                     $dompdf = new Dompdf();
-                    $html = view('report/current_week_by_name', ['data' => $data]);
+                    $html = view('report/record', ['data' => $data]);
                     $dompdf->loadHtml($html);
                     $dompdf->setPaper('A4', 'landscape');
                     $dompdf->render();
-                    $filename = 'Management_current_week_by_name_'.date('Ymd').time().'.pdf';
+                    $filename = 'Management_record_'.date('Ymd').time().'.pdf';
                     $originalPath = 'pdf/';
                 
                     $folderName = date('Ym');

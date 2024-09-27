@@ -178,7 +178,7 @@ class AuthController extends BaseController
                 
                 if (!file_exists($folder)) {
                     mkdir($folder, 0777, true);
-                }
+                } 
                 
                 file_put_contents($folder . $filename, $image_data);
             }else{
@@ -197,6 +197,7 @@ class AuthController extends BaseController
                 'mobile_number'         => $body->mobile_number,
                 'wwcc'                  => $body->wwcc ?? '',
                 'photo'                 => $filename,
+                'form_data'             => isset($body->form_data) ? serialize($body->form_data) : '',
                 'email'                 => $body->email,
                 'is_covid_or_sickness'  => $body->is_covid_or_sickness ?? '',
                 'location_service'      => $body->location_service ?? '',

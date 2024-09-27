@@ -63,6 +63,7 @@ $routes->group("api", function ($routes) {
             $routes->post("delete", "StaffController::delete");
             $routes->post("list", "StaffController::list");
             $routes->post("view", "StaffController::view");
+            $routes->post("staffWeekSchedule", "StaffController::staffWeekSchedule");
             $routes->post("uploadCsv", "StaffController::uploadCsv");
             $routes->post("signOut", "StaffController::signOut");
             $routes->post("history", "StaffController::history");

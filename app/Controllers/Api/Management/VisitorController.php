@@ -210,7 +210,7 @@ class VisitorController extends BaseController
                 $get_visitor = $visitor_builder->orderBy('created_at','DESC')->get();
                 if ($results = $get_visitor->getResult()) {
                     $data = array(); $d=0;
-                    foreach ($results as $key => $result) {
+                    foreach ($results as $key => $result) { 
                         
                         $visitor = $db->table('visitors');
                         $visitor->where('id', $result->visitor_id);
@@ -248,6 +248,17 @@ class VisitorController extends BaseController
                         $data[$d]['company_name'] = $visitorRecords->company_name;
                         $data[$d]['email'] = $visitorRecords->email;
                         $data[$d]['mobile_number'] = $visitorRecords->mobile_number;
+
+                        $folder = 'uploads/visitor_profile/';
+                        $baseURL = base_url($folder);
+                        if (file_exists('../public/' . $folder . $visitorRecords->photo)) {
+                            $photo = $baseURL . $visitorRecords->photo;
+                        } else {
+                            $photo = '';
+                        }
+
+                        $data[$d]['profile_image'] = $photo;
+                        $data[$d]['form_data'] = $visitorRecords->form_data ? unserialize($visitorRecords->form_data) : '';
                         
                         $visitorRecordKeys = new VisitorRecordKeys();
                         $visitorRecordKeysDatas = $visitorRecordKeys->where('records_id', $result->id)->where('status', 0)->get();

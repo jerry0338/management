@@ -38,7 +38,6 @@ class KeyController extends BaseController
                 }
 
                 $manageData = $this->managementRecordFind($management_id);
-                var_dump($manageData);
                 $managementKey = new ManagementKey();
                 $management = $managementKey->where('management_id', $management_id)->where('key_id', $body->key_id)->first();
     
@@ -173,7 +172,7 @@ class KeyController extends BaseController
             return $this->fail($response, 409);
         }
     }
-    
+
     public function list()
     {
         $rules = [
@@ -188,72 +187,99 @@ class KeyController extends BaseController
                 helper('text');
                 helper('common');
 
-                // Filter for management_id based on management_type
-                if($body->management_type == 'staff'){
+                if ($body->management_type == 'staff') {
                     $management_id = managementTypeToIdGet($body->management_id);
                 } else {
                     $management_id = $body->management_id;
                 }
 
                 $managementKey = new ManagementKey();
-                $managementKey = $managementKey->where('management_id', $management_id);
 
-                // Add Filters if provided
+                $managementKey = $managementKey->select('management_key.*, visitor_record_keys.records_id, visitor_record_keys.loan_period, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')
+                    ->join('visitor_record_keys', 'visitor_record_keys.management_key_id = management_key.id', 'left') 
+                    ->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id', 'left')
+                    ->join('visitors', 'visitors.id = visitor_records.visitor_id', 'left')
+                    ->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id', 'left')
+                    ->where('management_key.management_id', $management_id);
+
                 if (isset($body->key_id)) {
-                    $managementKey = $managementKey->where('key_id', $body->key_id);
+                    $managementKey->where('management_key.key_id', $body->key_id);
                 }
                 if (isset($body->serial_no)) {
-                    $managementKey = $managementKey->where('serial_no', $body->serial_no);
+                    $managementKey->where('management_key.serial_no', $body->serial_no);
                 }
                 if (isset($body->key_type)) {
-                    $managementKey = $managementKey->where('key_type', $body->key_type);
+                    $managementKey->where('management_key.key_type', $body->key_type);
                 }
 
-                $managementKey = $managementKey->get();
-                $data = array(); $d=0;
+                if (!empty($body->search_keyword)) {
+                    $searchKeyword = $body->search_keyword;
+                    $managementKey->groupStart()
+                        ->like('management_key.key_id', $searchKeyword)
+                        ->orLike('management_key.serial_no', $searchKeyword)
+                        ->orLike('management_key.key_type', $searchKeyword)
+                        ->orLike('visitors.first_name', $searchKeyword)
+                        ->orLike('visitors.last_name', $searchKeyword)
+                        ->orLike('visitors.company_name', $searchKeyword)
+                        ->groupEnd();
+                }
 
-                if ($results = $managementKey->getResult()) {
+                if (isset($body->person_type)) {
+                    $managementKey->where('visitor_type.type', $body->person_type);
+                }
+                if (isset($body->name)) {
+                    $managementKey->groupStart()
+                        ->like('visitors.first_name', $body->name)
+                        ->orLike('visitors.last_name', $body->name)
+                        ->groupEnd();
+                }
+                if (isset($body->company)) {
+                    $managementKey->where('visitors.company_name', $body->company);
+                }
+
+                $managementKeyResults = $managementKey->orderBy('management_key.created_at', 'DESC')->get();
+                $data = array();
+                $d = 0;
+
+                if ($results = $managementKeyResults->getResult()) {
                     foreach ($results as $result) {
-                        $data[$d]['management_key_id'] = $result->id;
-                        $data[$d]['key_id'] = $result->key_id;
-                        $data[$d]['serial_no'] = $result->serial_no;
-                        $data[$d]['key_type'] = $result->key_type;
-
-                        $visitorRecordKeys = new VisitorRecordKeys();
-
-                        $visitorRecordKeysData = $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')
-                            ->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')
-                            ->join('visitors', 'visitors.id = visitor_records.visitor_id')
-                            ->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id')
-                            ->where('visitor_record_keys.management_key_id', $result->id)
-                            ->where('visitor_record_keys.status', 0);
-
-                        // Add Filters for person_type, name, company if provided
-                        if (isset($body->person_type)) {
-                            $visitorRecordKeys = $visitorRecordKeys->where('visitor_type.type', $body->person_type);
-                        }
-                        if (isset($body->name)) {
-                            $visitorRecordKeys = $visitorRecordKeys->where('visitors.first_name', $body->name)
-                                                                ->orWhere('visitors.last_name', $body->name);
-                        }
-                        if (isset($body->company)) {
-                            $visitorRecordKeys = $visitorRecordKeys->where('visitors.company_name', $body->company);
+                        $loan = $avalible = true; 
+                        if (isset($body->status)) {
+                            if ($body->status == 'Loan') {
+                               $loan = true; 
+                               $avalible = false; 
+                            }
+                            if ($body->status == 'Avalible') {
+                                $avalible = true; 
+                                $loan = false; 
+                            }
                         }
 
-                        $visitorRecordKeysData = $visitorRecordKeys->first();
+                        if (!empty($result->records_id) && $loan) {
+                            $data[$d]['management_key_id'] = $result->id;
+                            $data[$d]['key_id'] = $result->key_id;
+                            $data[$d]['serial_no'] = $result->serial_no;
+                            $data[$d]['key_type'] = $result->key_type;
 
-                        if($visitorRecordKeysData){
                             $data[$d]['key_loan'] = true;
-                            $data[$d]['person_type'] = $visitorRecordKeysData['type'];
-                            $data[$d]['name'] = $visitorRecordKeysData['first_name'] . ' ' . $visitorRecordKeysData['last_name'];
-                            $data[$d]['company'] = $visitorRecordKeysData['company_name'];
+                            $data[$d]['person_type'] = !empty($result->type) ? $result->type : 'n/a';
+                            $data[$d]['name'] = !empty($result->first_name) ? $result->first_name . ' ' . $result->last_name : 'n/a';
+                            $data[$d]['company'] = !empty($result->company_name) ? $result->company_name : 'n/a';
 
-                            $loan_period = date_add(date_create($visitorRecordKeysData['created_at']), date_interval_create_from_date_string($visitorRecordKeysData['loan_period']));
+                            $loan_period = date_create($result->created_at);
                             $data[$d]['date_out'] = date_format($loan_period, 'd/m/Y');
                             $data[$d]['time_out'] = date_format($loan_period, 'h:ia');
                             $data[$d]['overdue'] = 'yes';
-                            $data[$d]['loan_length'] = $visitorRecordKeysData['loan_period'];
-                        } else {
+                            $data[$d]['loan_length'] = $result->loan_period;
+                            $data[$d]['created_at'] = $result->created_at;
+                            $d++;
+                        }
+                        if (empty($result->records_id) && $avalible) {
+                            $data[$d]['management_key_id'] = $result->id;
+                            $data[$d]['key_id'] = $result->key_id;
+                            $data[$d]['serial_no'] = $result->serial_no;
+                            $data[$d]['key_type'] = $result->key_type;
+
                             $data[$d]['key_loan'] = false;
                             $data[$d]['person_type'] = 'n/a';
                             $data[$d]['name'] = 'n/a';
@@ -262,10 +288,9 @@ class KeyController extends BaseController
                             $data[$d]['time_out'] = 'n/a';
                             $data[$d]['overdue'] = 'n/a';
                             $data[$d]['loan_length'] = 'n/a';
-                        }
-
-                        $data[$d]['created_at'] = $result->created_at;
-                        $d++;
+                            $data[$d]['created_at'] = $result->created_at;
+                            $d++;
+                        }                      
                     }
                 }
 
@@ -275,7 +300,7 @@ class KeyController extends BaseController
                     return $this->respond(['status' => 0, 'message' => 'No Key data found', 'data' => array()], 200);
                 }
             } catch (Exception $exception) {
-                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+                return $this->respond(['status' => 0, 'msg' => 'Something went wrong.'], 500);
             }
         } else {
             $response = [
@@ -286,106 +311,6 @@ class KeyController extends BaseController
         }
     }
 
-    
-    public function list1()
-    {
-        $rules = [
-            'management_id' => ['rules' => 'required']
-        ];
-
-        $body = json_decode($this->request->getBody());
-
-        if ($this->validate($rules)) {
-            try {
-                helper('text');
-                $managementKey = new ManagementKey();
-                
-                $managementKey = $managementKey
-                                ->select('management_key.*, visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')
-                                ->join('visitor_record_keys', 'visitor_record_keys.management_key_id = management_key.id')
-                                ->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')
-                                ->join('visitors', 'visitors.id = visitor_records.visitor_id')
-                                ->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id')
-                                ->where('management_key.management_id', $body->management_id);
-                                    
-                if(!empty($body->searchKeyword)){
-                    $conditions = "(key_id LIKE '%" . $body->searchKeyword . "%' OR serial_no LIKE '%" . $body->searchKeyword . "%' OR key_type LIKE '%" . $body->searchKeyword . "%')";
-                    $managementKey = $managementKey->where($conditions);
-                }
-                
-                $managementKey = $managementKey->get();
-                if ($results = $managementKey->getResult()) {
-                    $data = array(); $d=0;
-                    var_dump($results);
-                    foreach ($results as $key => $result) {
-                        
-                        
-                        
-                        if(!empty($body->filterPersonType) || !empty($body->filterName) || !empty($body->filterPersonType)){
-                        
-                            
-                        }
-                        // $data[$d]['management_key_id'] = $result->id;
-                        // $data[$d]['key_id'] = $result->key_id;
-                        // $data[$d]['serial_no'] = $result->serial_no;
-                        // $data[$d]['key_type'] = $result->key_type;
-                        
-                        $visitorRecordKeys = new VisitorRecordKeys();
-                        
-                        $visitorRecordKeysData = $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')->join('visitors', 'visitors.id = visitor_records.visitor_id')->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id')->where('visitor_record_keys.management_key_id', $result->id)->where('visitor_record_keys.status', 0)->first();
-                
-                        if($visitorRecordKeysData){
-                            $data[$d]['key_loan'] = true;
-                            
-                            $data[$d]['person_type'] = $visitorRecordKeysData['type'];
-                            $data[$d]['name'] = $visitorRecordKeysData['first_name'].' '.$visitorRecordKeysData['last_name'];
-                            $data[$d]['company'] = $visitorRecordKeysData['company_name'];
-                            
-                            $loan_period = date_add(date_create($visitorRecordKeysData['created_at']), date_interval_create_from_date_string($visitorRecordKeysData['loan_period']));
-                            $data[$d]['date_out'] = date_format($loan_period, 'd/m/Y');
-                            $data[$d]['time_out'] = date_format($loan_period, 'h:ia');
-                            
-                            $date = strtotime(date_format($loan_period, 'Y-m-d H:i:s'));
-                            if ($date < time()) {
-                                $data[$d]['overdue'] = 'yes';
-                            }else{
-                                $data[$d]['overdue'] =  'no';
-                            }
-    
-                            $data[$d]['loan_length'] =  $visitorRecordKeysData['loan_period'];
-                        }else{
-                            $data[$d]['key_loan'] = false;
-                            
-                            $data[$d]['person_type'] = 'n/a';
-                            $data[$d]['name'] = 'n/a';
-                            $data[$d]['company'] = 'n/a';
-                            $data[$d]['date_out'] = 'n/a';
-                            $data[$d]['time_out'] = 'n/a';
-                            $data[$d]['overdue'] = 'n/a';
-                            $data[$d]['loan_length'] = 'n/a';
-                        }
-                        // $data[$d]['created_at'] = $result->created_at;
-                        
-                        $d++;
-                    }
-                }
-                
-                if(sizeof($data) > 0){
-                    return $this->respond(['status' => 1, 'message' => 'Key data', 'data' => $data], 200);
-                }else{
-                    return $this->respond(['status' => 0, 'message' => 'No Key data found ', 'data' => array()], 200);
-                }
-            } catch (Exception $exception) {
-                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
-            } 
-        } else {
-            $response = [
-                'errors' => $this->validator->getErrors(),
-                'message' => 'Invalid Inputs'
-            ];
-            return $this->fail($response, 409);
-        }
-    }
     
     public function userList()
     {
@@ -465,7 +390,7 @@ class KeyController extends BaseController
             return $this->fail($response, 409);
         }
     }
-    
+
     public function history()
     {
         $rules = [
@@ -479,75 +404,85 @@ class KeyController extends BaseController
                 helper('text');
                 
                 $visitorRecordKeys = new VisitorRecordKeys();
-                $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')->join('visitors', 'visitors.id = visitor_records.visitor_id')->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id');
+                $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type, management_key.serial_no, management_key.key_id, management_key.key_type')
+                    ->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')
+                    ->join('visitors', 'visitors.id = visitor_records.visitor_id')
+                    ->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id')
+                    ->join('management_key', 'management_key.id = visitor_record_keys.management_key_id') // Join management_key table
+                    ->where('visitor_record_keys.management_key_id', $body->management_key_id);
 
-                if(!empty($body->visitor_type_id)){
+                // Apply the common search_keyword filter
+                if (!empty($body->search_keyword)) {
+                    $searchKeyword = $body->search_keyword;
+                    $visitorRecordKeys->groupStart() // Start grouping for the OR conditions
+                        ->like('visitors.first_name', $searchKeyword)
+                        ->orLike('visitors.last_name', $searchKeyword)
+                        ->orLike('visitors.company_name', $searchKeyword)
+                        ->orLike('visitor_type.type', $searchKeyword)
+                        ->orLike('visitor_record_keys.created_at', $searchKeyword)
+                        // Search in management-related fields
+                        ->orLike('management_key.serial_no', $searchKeyword)
+                        ->orLike('management_key.key_id', $searchKeyword)
+                        ->orLike('management_key.key_type', $searchKeyword)
+                        ->groupEnd(); // End grouping
+                }
+
+                // Apply specific filters if they are provided
+                if (!empty($body->visitor_type_id)) {
                     $visitorRecordKeys->where('visitor_type.id', $body->visitor_type_id);
                 }
-                if(!empty($body->name)){
-                    $conditions = "(visitors.first_name LIKE '%" . $body->name . "%' OR visitors.last_name LIKE '%" . $body->name . "%')";
+
+                if (!empty($body->name)) {
+                    $name = explode(' ', $body->name);
+                    $conditions = "(visitors.first_name LIKE '%" . $name[0] . "%' OR visitors.last_name LIKE '%" . $name[1] . "%')";
                     $visitorRecordKeys->where($conditions);
                 }
-                if(!empty($body->company_name)){
+
+                if (!empty($body->company_name)) {
                     $visitorRecordKeys->where('visitors.company_name', $body->company_name);
                 }
-                
-                $visitorRecordKeys->where('visitor_record_keys.management_key_id', $body->management_key_id);
-                
-                $visitorRecordKeysData = $visitorRecordKeys->orderBy('created_at','DESC')->get();
 
-                $data = array(); $d=0;
-                if ($results = $visitorRecordKeysData->getResult()) {
-                    foreach ($results as $key => $result) {
-                        
-                        $managementKey = new ManagementKey();
-                        
-                        if(!empty($body->serial_no)){
-                            $managementKey = $managementKey->like('serial_no', '%'.$body->serial_no.'%')->where('id', $body->management_key_id)->first();
-                        }else{
-                            $managementKey = $managementKey->where('id', $body->management_key_id)->first();
-                        }
-                        
-                        if($managementKey){
-                
-                            $data[$d]['management_key_id'] = $managementKey['id'];
-                            $data[$d]['key_id'] = $managementKey['key_id'];
-                            $data[$d]['serial_no'] = $managementKey['serial_no'];
-                            $data[$d]['key_type'] = $managementKey['key_type'];
-                            
-                            if($result->status == 1){
-                                $data[$d]['key_loan'] = false;
-                            }else{
-                                $data[$d]['key_loan'] = true;
-                            }
-                                
-                            $data[$d]['person_type'] = $result->type;
-                            $data[$d]['name'] = $result->first_name.' '.$result->last_name;
-                            $data[$d]['company'] = $result->company_name;
-                            
-                            $loan_period = date_create($result->created_at);
-                            $data[$d]['date_out'] = date_format($loan_period, 'd/m/Y');
-                            $data[$d]['time_out'] = date_format($loan_period, 'h:ia');
-                            
-                            $loan_period = date_create($result->updated_at);
-                            $data[$d]['return_date'] = date_format($loan_period, 'd/m/Y');
-                            $data[$d]['return_time'] = date_format($loan_period, 'h:ia');
-                        
-                            $data[$d]['loan_length'] =  $result->loan_period;
-                            $d++;
-                        }
-                    }
-                    
+                if(!empty($body->serial_no)){
+                    $visitorRecordKeys->like('management_key.serial_no', '%'.$body->serial_no.'%');
                 }
-                    
-                if(sizeof($data) > 0){
+
+                $visitorRecordKeysData = $visitorRecordKeys->orderBy('visitor_record_keys.created_at', 'DESC')->get();
+
+                $data = array(); $d = 0;
+                if ($results = $visitorRecordKeysData->getResult()) {
+                    foreach ($results as $result) {
+                        // Management key data is already available in the result
+                        $data[$d]['management_key_id'] = $result->management_key_id;
+                        $data[$d]['key_id'] = $result->key_id;
+                        $data[$d]['serial_no'] = $result->serial_no;
+                        $data[$d]['key_type'] = $result->key_type;
+                        $data[$d]['key_loan'] = ($result->status == 0);
+
+                        $data[$d]['person_type'] = $result->type;
+                        $data[$d]['name'] = $result->first_name . ' ' . $result->last_name;
+                        $data[$d]['company'] = $result->company_name;
+
+                        $loan_period = date_create($result->created_at);
+                        $data[$d]['date_out'] = date_format($loan_period, 'd/m/Y');
+                        $data[$d]['time_out'] = date_format($loan_period, 'h:ia');
+
+                        $return_period = date_create($result->updated_at);
+                        $data[$d]['return_date'] = date_format($return_period, 'd/m/Y');
+                        $data[$d]['return_time'] = date_format($return_period, 'h:ia');
+
+                        $data[$d]['loan_length'] = $result->loan_period;
+                        $d++;
+                    }
+                }
+
+                if (sizeof($data) > 0) {
                     return $this->respond(['status' => 1, 'message' => 'Key data', 'data' => $data], 200);
-                }else{
-                    return $this->respond(['status' => 0, 'message' => 'No Key data found ', 'data' => array()], 200);
+                } else {
+                    return $this->respond(['status' => 0, 'message' => 'No Key data found', 'data' => array()], 200);
                 }
             } catch (Exception $exception) {
-                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
-            } 
+                return $this->respond(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            }
         } else {
             $response = [
                 'errors' => $this->validator->getErrors(),

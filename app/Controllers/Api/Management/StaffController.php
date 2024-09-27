@@ -278,6 +278,56 @@ class StaffController extends BaseController
             return $this->fail($response, 409);
         }
     }
+    public function staffWeekSchedule()
+    {
+        $rules = [
+            'management_staff_id' => ['rules' => 'required']
+        ];
+
+        $body = json_decode($this->request->getBody());
+
+        if ($this->validate($rules)) {
+            try {
+                $db = \Config\Database::connect();
+                $management_login_builder = $db->table('management_login');
+
+                // Select the formatted week
+                $management_login_builder->select("CONCAT(WEEK(management_login.created_at, 1) - WEEK(DATE_SUB(management_login.created_at, INTERVAL DAY(management_login.created_at) - 1 DAY), 1) + 1, ' ', DATE_FORMAT(management_login.created_at, '%b %Y')) AS formatted_week");
+                $management_login_builder->where('management_login.staff_id', $body->management_staff_id);
+                
+                // Group by formatted_week and order in descending order
+                $management_login_builder->groupBy('formatted_week');
+                $management_login_builder->orderBy('management_login.created_at', 'DESC');
+                
+                $managementLogin = $management_login_builder->get();
+                
+                $data = array(); 
+                $d = 0;
+
+                if ($results = $managementLogin->getResult()) {
+                    foreach ($results as $result) {
+                        $data['list'][$d] = $result->formatted_week;
+                        $d++;
+                    }
+                }
+                
+                if (sizeof($data) > 0) {
+                    return $this->respond(['status' => 1, 'message' => 'Week data', 'data' => $data], 200);
+                } else {
+                    return $this->respond(['status' => 0, 'message' => 'No Week data found', 'data' => array()], 200);
+                }
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            }
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+
     public function uploadCsv()
     {
         $bodys = json_decode($this->request->getBody());

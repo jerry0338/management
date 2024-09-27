@@ -34,10 +34,32 @@ class AuthController extends BaseController
             $qr_key = random_string('alnum', 16);
 
             $model = new Management();
+
+            $filename = null;
+            if ($body->profile_image) {
+                $base64_image = $body->profile_image;
+                list($type, $data) = explode(';', $base64_image);
+                list(, $data) = explode(',', $data);
+
+                $image_data = base64_decode($data);
+                $filename = time().uniqid().'.png';
+                
+                $folder = '../public/uploads/management_profile/';
+                
+                if (!file_exists($folder)) {
+                    mkdir($folder, 0777, true);
+                } 
+                
+                file_put_contents($folder . $filename, $image_data);
+            }else{
+                $filename = '';
+            }
+
             $data = [
                 'management_type_id'       => $body->management_type_id,
                 'first_name'    => $body->first_name,
                 'last_name'     => $body->last_name,
+                'profile_image' => $filename,
                 'mobile_number' => $body->mobile_number,
                 'email'         => $body->email,
                 'title'         => $body->title,
@@ -122,6 +144,7 @@ class AuthController extends BaseController
                     $managementData = $managementModel->where('id', $managementStaff['management_id'])->select(['title'])->first();
                     $title = $managementData['title'];
                     $mobile_number = $managementStaff['mobile_number'];
+                    $profile_image = '';
                     $type = 'staff';
                     $managementType = $managementTypeModel->where('type', $managementStaff['role'])->select(['id as management_type_id', 'type as management_type'])->first();
 
@@ -145,6 +168,13 @@ class AuthController extends BaseController
                 $last_name = $management['last_name'];
                 $title = $management['title'];
                 $mobile_number = $management['mobile_number'];
+                $folder = 'uploads/management_profile/';
+                $baseURL = base_url($folder);
+                if (file_exists('../public/' . $folder . $management['profile_image'])) {
+                    $profile_image = $baseURL . $management['profile_image'];
+                } else {
+                    $profile_image = '';
+                }
                 $type = 'admin';
                 $managementType = $managementTypeModel->where('id', $management['management_type_id'])->select(['id as management_type_id', 'type as management_type'])->first();
             }
@@ -161,6 +191,7 @@ class AuthController extends BaseController
                 "last_name" => $last_name,
                 "title" => $title,
                 "mobile_number" => $mobile_number,
+                "profile_image" => $profile_image,
                 "management_type" => $managementType,
             ];
 
