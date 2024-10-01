@@ -17,6 +17,7 @@ class ManagementKey extends Model
         'key_id',
         'serial_no',
         'key_type',
+        'staff_id',
         'created_at',
         'updated_at',
     ];

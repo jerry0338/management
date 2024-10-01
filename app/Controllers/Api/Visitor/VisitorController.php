@@ -70,7 +70,7 @@ class VisitorController extends BaseController
                             $filename = time().uniqid().'.png';
                            
                             
-                            $folder = '../public_html/uploads/visitor_profile/';
+                            $folder = '../public/uploads/visitor_profile/';
                             
                             if (!file_exists($folder)) {
                                 mkdir($folder, 0777, true);

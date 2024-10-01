@@ -332,7 +332,10 @@ class KeyController extends BaseController
                 }
 
                 $managementKey = new ManagementKey();
-                $managementKey = $managementKey->where('management_id', $management_id)->where('staff_id', '!=', '')->get();
+                $managementKey = $managementKey->where('management_id', $management_id)
+                                            ->where('staff_id IS NOT NULL') 
+                                            ->where('staff_id !=', '') 
+                                            ->get();
                 $data = array(); $d=0;
                 if ($results = $managementKey->getResult()) {
                     foreach ($results as $key => $result) {
@@ -433,10 +436,17 @@ class KeyController extends BaseController
                 }
 
                 if (!empty($body->name)) {
-                    $name = explode(' ', $body->name);
-                    $conditions = "(visitors.first_name LIKE '%" . $name[0] . "%' OR visitors.last_name LIKE '%" . $name[1] . "%')";
-                    $visitorRecordKeys->where($conditions);
+                    $visitorRecordKeys->groupStart()
+                        ->like('visitors.first_name', $body->name)
+                        ->orLike('visitors.last_name', $body->name)
+                        ->groupEnd();
                 }
+
+                // if (!empty($body->name)) {
+                //     $name = explode(' ', $body->name);
+                //     $conditions = "(visitors.first_name LIKE '%" . $name[0] . "%' OR visitors.last_name LIKE '%" . $name[1] . "%')";
+                //     $visitorRecordKeys->where($conditions);
+                // }
 
                 if (!empty($body->company_name)) {
                     $visitorRecordKeys->where('visitors.company_name', $body->company_name);

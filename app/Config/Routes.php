@@ -25,6 +25,7 @@ $routes->group("api", function ($routes) {
         $routes->post("codeCheck", "AuthController::codeCheck");
         $routes->post("updatePassword", "AuthController::updatePassword");
                 
+        $routes->post("profileUpdate", "ManagementController::profileUpdate");
         $routes->post("managementUniqueKey", "ManagementController::managementUniqueKey");
         $routes->post("managementUniqueKeyToId", "ManagementController::managementUniqueKeyToId");
         $routes->post("managementPerson", "ManagementController::managementPerson");

@@ -4,7 +4,7 @@ namespace App\Controllers\Api\Management;
 
 use App\Controllers\BaseController;
 
-use App\Models\{Management, ManagementStaff, VisitorRecords, UserVisitor};
+use App\Models\{Management, ManagementType, ManagementStaff, VisitorRecords, UserVisitor};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 
@@ -12,6 +12,131 @@ class ManagementController extends BaseController
 {
     use ResponseTrait;
     
+    public function profileUpdate()
+    {
+        $rules = [
+            'management_id' => ['rules' => 'required'],
+            'management_type' => ['rules' => 'required'],
+            'title' => ['rules' => 'required'],
+            'first_name' => ['rules' => 'required|min_length[3]|max_length[255]'],
+            'last_name' => ['rules' => 'required|min_length[3]|max_length[255]'],
+            'email' => ['rules' => 'required|min_length[4]|max_length[255]'],
+            'mobile_number' => ['rules' => 'required|min_length[10]|max_length[10]']
+        ];
+
+        $body = json_decode($this->request->getBody());
+        if ($this->validate($rules)) {
+            try {
+                
+                helper('common');
+                if($body->management_type == 'staff'){
+                    return $this->respond(['status' => 0, 'message' => 'Management Staff not updated'], 200);
+                }else{
+                    $management_id = $body->management_id;
+
+                    $managementTypeModel = new ManagementType();
+
+                    $management = new Management();
+                    $management = $management->where('id NOT LIKE', $management_id)->where('email', $body->email)->first();
+                    $data = array();
+                    if (is_null($management)) {
+                        
+                        $management = new Management();
+                        $management = $management->where('id NOT LIKE', $management_id)->where('mobile_number', $body->mobile_number)->first();
+                        if (is_null($management)) {
+                            
+                            $db = \Config\Database::connect();
+        
+                            $management = $db->table('management');
+                            $management = $management->where('id', $management_id);
+                            
+                            if(!empty($body->first_name)){
+                                $data['first_name'] = $body->first_name;
+                            }
+                            if(!empty($body->last_name)){
+                                $data['last_name'] = $body->last_name;
+                            }
+                            if(!empty($body->email)){
+                                $data['email'] = $body->email;
+                            }
+                            if(!empty($body->title)){
+                                $data['title'] = $body->title;
+                            } 
+                            if(!empty($body->mobile_number)){
+                                $data['mobile_number'] = $body->mobile_number;
+                            } 
+                            if (!empty($body->profile_image)) {
+                        
+                                $base64_image = $body->profile_image;
+                                list($type, $data1) = explode(';', $base64_image);
+                                list(, $data1) = explode(',', $data1);
+                
+                                $image_data = base64_decode($data1);
+                                $filename = time().uniqid().'.png';
+                            
+                                
+                                $folder = '../public/uploads/management_profile/';
+                                
+                                if (!file_exists($folder)) {
+                                    mkdir($folder, 0777, true);
+                                }
+                                
+                                file_put_contents($folder.$filename, $image_data);
+                                $data['profile_image'] = $filename;
+                                
+                            }
+
+                            if($management->update($data)){
+
+                                $managementModel = new Management();
+                                $management = $managementModel->where('id', $management_id)->first();
+        
+                                $folder = 'uploads/management_profile/';
+                                $baseURL = base_url($folder);
+                                if (file_exists('../public/' . $folder . $management['profile_image'])) {
+                                    $profile_image = $baseURL . $management['profile_image'];
+                                } else {
+                                    $profile_image = '';
+                                }
+                                $managementType = $managementTypeModel->where('id', $management['management_type_id'])->select(['id as management_type_id', 'type as management_type'])->first();
+
+                                $data = [
+                                    "management_id" => $management_id,
+                                    "type" => 'admin',
+                                    "unique_key" => $management['unique_key'],
+                                    "email" => $management['email'],
+                                    "first_name" => $management['first_name'],
+                                    "last_name" => $management['last_name'],
+                                    "title" => $management['title'],
+                                    "mobile_number" => $management['mobile_number'],
+                                    "profile_image" => $profile_image,
+                                    "management_type" => $managementType,
+                                ];
+                                
+                                return $this->respond(['status' => 1, 'message' => 'Management updated successfully', 'data' => $data], 200);
+                            }else{
+                                return $this->respond(['status' => 0, 'message' => 'Management not updat.please, try again.'], 200);
+                            }
+                        }else{
+                            return $this->respond(['status' => 0,'message' => 'Management mobile number already exites.'], 200);
+                        } 
+                    }else{
+                        return $this->respond(['status' => 0,'message' => 'Management email already exites.'], 200);
+                    } 
+
+                }
+            } catch (Exception $exception) {
+                return response()->json(['status' => 0, 'msg' => 'Something went wrong.'], 500);
+            } 
+        } else {
+            $response = [
+                'errors' => $this->validator->getErrors(),
+                'message' => 'Invalid Inputs'
+            ];
+            return $this->fail($response, 409);
+        }
+    }
+
     public function managementUniqueKey()
     {
         $rules = [

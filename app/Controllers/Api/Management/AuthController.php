@@ -56,7 +56,7 @@ class AuthController extends BaseController
             }
 
             $data = [
-                'management_type_id'       => $body->management_type_id,
+                'management_type_id' => $body->management_type_id,
                 'first_name'    => $body->first_name,
                 'last_name'     => $body->last_name,
                 'profile_image' => $filename,
