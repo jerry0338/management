@@ -7,7 +7,7 @@ use App\Controllers\BaseController;
 use App\Models\{Management, ManagementStaff, ManagementKey, VisitorRecords, VisitorRecordKeys};
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
-
+use Illuminate\Support\Facades\DB;
 
 
 class KeyController extends BaseController
@@ -193,56 +193,82 @@ class KeyController extends BaseController
                     $management_id = $body->management_id;
                 }
 
-                $managementKey = new ManagementKey();
+                $db = \Config\Database::connect();
+                
+                $subQuery = $db->table('visitor_record_keys')
+                    ->select('management_key_id, MAX(created_at) AS latest_created_at')
+                    ->groupBy('management_key_id');
+    
+                $subQuerySql = $subQuery->getCompiledSelect(); 
+                $visitor_builder = $db->table('visitor_record_keys vrk');
+                $visitor_builder->select('vrk.id')
+                                ->join("($subQuerySql) latest", 'vrk.management_key_id = latest.management_key_id AND vrk.created_at = latest.latest_created_at');
+                $visitor_data = $visitor_builder->get()->getResultArray();
 
-                $managementKey = $managementKey->select('management_key.*, visitor_record_keys.records_id, visitor_record_keys.loan_period, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')
+                // Query the ManagementKey model with joins and conditions
+                $managementKey = new ManagementKey();
+                $managementKey = $managementKey->select('management_key.id, management_key.management_id, management_key.key_id, management_key.serial_no, management_key.key_type, management_key.staff_id, visitor_record_keys.records_id, visitor_record_keys.loan_period, visitor_record_keys.created_at, management_key.created_at as created_at1, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')
                     ->join('visitor_record_keys', 'visitor_record_keys.management_key_id = management_key.id', 'left') 
                     ->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id', 'left')
                     ->join('visitors', 'visitors.id = visitor_records.visitor_id', 'left')
                     ->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id', 'left')
+                    // ->whereIn('visitor_record_keys.id', array_column($visitor_data, 'id'))
                     ->where('management_key.management_id', $management_id);
+                    
+                    if (!empty($visitor_data)) {
+                        $ids = array_column($visitor_data, 'id');
+                        if (!empty($ids)) {
+                            $managementKey->groupStart()
+                                ->whereIn('visitor_record_keys.id', $ids)
+                                ->orWhere('visitor_record_keys.id IS NULL') // Ensure NULLs are included
+                                ->groupEnd();
+                        }
+                    }
 
-                if (isset($body->key_id)) {
-                    $managementKey->where('management_key.key_id', $body->key_id);
-                }
-                if (isset($body->serial_no)) {
-                    $managementKey->where('management_key.serial_no', $body->serial_no);
-                }
-                if (isset($body->key_type)) {
-                    $managementKey->where('management_key.key_type', $body->key_type);
-                }
 
-                if (!empty($body->search_keyword)) {
-                    $searchKeyword = $body->search_keyword;
-                    $managementKey->groupStart()
-                        ->like('management_key.key_id', $searchKeyword)
-                        ->orLike('management_key.serial_no', $searchKeyword)
-                        ->orLike('management_key.key_type', $searchKeyword)
-                        ->orLike('visitors.first_name', $searchKeyword)
-                        ->orLike('visitors.last_name', $searchKeyword)
-                        ->orLike('visitors.company_name', $searchKeyword)
-                        ->groupEnd();
-                }
+                    if (isset($body->key_id)) {
+                        $managementKey->where('management_key.key_id', $body->key_id);
+                    }
+                    if (isset($body->serial_no)) {
+                        $managementKey->where('management_key.serial_no', $body->serial_no);
+                    }
+                    if (isset($body->key_type)) {
+                        $managementKey->where('management_key.key_type', $body->key_type);
+                    }
+    
+                    if (!empty($body->search_keyword)) {
+                        $searchKeyword = $body->search_keyword;
+                        $managementKey->groupStart()
+                            ->like('management_key.key_id', $searchKeyword)
+                            ->orLike('management_key.serial_no', $searchKeyword)
+                            ->orLike('management_key.key_type', $searchKeyword)
+                            ->orLike('visitors.first_name', $searchKeyword)
+                            ->orLike('visitors.last_name', $searchKeyword)
+                            ->orLike('visitors.company_name', $searchKeyword)
+                            ->groupEnd();
+                    }
+    
+                    if (isset($body->person_type)) {
+                        $managementKey->where('visitor_type.type', $body->person_type);
+                    }
+                    if (isset($body->name)) {
+                        $managementKey->groupStart()
+                            ->like('visitors.first_name', $body->name)
+                            ->orLike('visitors.last_name', $body->name)
+                            ->groupEnd();
+                    }
+                    if (isset($body->company)) {
+                        $managementKey->where('visitors.company_name', $body->company);
+                    }
 
-                if (isset($body->person_type)) {
-                    $managementKey->where('visitor_type.type', $body->person_type);
-                }
-                if (isset($body->name)) {
-                    $managementKey->groupStart()
-                        ->like('visitors.first_name', $body->name)
-                        ->orLike('visitors.last_name', $body->name)
-                        ->groupEnd();
-                }
-                if (isset($body->company)) {
-                    $managementKey->where('visitors.company_name', $body->company);
-                }
-
-                $managementKeyResults = $managementKey->orderBy('management_key.created_at', 'DESC')->get();
+                // Get the results ordered by the created_at date
+                $managementKeyResults = $managementKey->orderBy('visitor_record_keys.created_at', 'DESC')->get();
                 $data = array();
                 $d = 0;
 
                 if ($results = $managementKeyResults->getResult()) {
                     foreach ($results as $result) {
+                        
                         $loan = $avalible = true; 
                         if (isset($body->status)) {
                             if ($body->status == 'Loan') {
@@ -288,7 +314,7 @@ class KeyController extends BaseController
                             $data[$d]['time_out'] = 'n/a';
                             $data[$d]['overdue'] = 'n/a';
                             $data[$d]['loan_length'] = 'n/a';
-                            $data[$d]['created_at'] = $result->created_at;
+                            $data[$d]['created_at'] = $result->created_at1;
                             $d++;
                         }                      
                     }
@@ -311,7 +337,6 @@ class KeyController extends BaseController
         }
     }
 
-    
     public function userList()
     {
         $rules = [
@@ -339,41 +364,24 @@ class KeyController extends BaseController
                 $data = array(); $d=0;
                 if ($results = $managementKey->getResult()) {
                     foreach ($results as $key => $result) {
-                        $data[$d]['management_key_id'] = $result->id;
-                        $data[$d]['key_id'] = $result->key_id;
-                        $data[$d]['serial_no'] = $result->serial_no;
-                        $data[$d]['key_type'] = $result->key_type;
                         
-                        $visitorRecordKeys = new VisitorRecordKeys();
+                        $managementStaff = new ManagementStaff();
+                        $managementStaff = $managementStaff->where('id', $result->staff_id)->first();
+                        if ($managementStaff) {
                         
-                        $visitorRecordKeysData = $visitorRecordKeys->select('visitor_record_keys.*, visitors.first_name, visitors.last_name, visitors.company_name, visitor_type.type')->join('visitor_records', 'visitor_records.id = visitor_record_keys.records_id')->join('visitors', 'visitors.id = visitor_records.visitor_id')->join('visitor_type', 'visitor_type.id = visitors.visitor_type_id')->where('visitor_record_keys.management_key_id', $result->id)->where('visitor_record_keys.status', 0)->first();
-                
-                        if($visitorRecordKeysData){
-                            $data[$d]['key_loan'] = true;
+                            $data[$d]['management_key_id'] = $result->id;
+                            $data[$d]['key_id'] = $result->key_id;
+                            $data[$d]['serial_no'] = $result->serial_no;
+                            $data[$d]['key_type'] = $result->key_type;
+                            $data[$d]['management_staff_id'] = $managementStaff['id'];
+                            $data[$d]['name'] = $managementStaff['name'];
+                            $data[$d]['mobile_number'] = $managementStaff['mobile_number'];
+                            $data[$d]['company'] = 'N/A';
+                            $data[$d]['email'] = $managementStaff['email'];
+                            $data[$d]['role'] = $managementStaff['role'];
+                            $d++;
                             
-                            $data[$d]['person_type'] = $visitorRecordKeysData['type'];
-                            $data[$d]['name'] = $visitorRecordKeysData['first_name'].' '.$visitorRecordKeysData['last_name'];
-                            $data[$d]['company'] = $visitorRecordKeysData['company_name'];
-                            
-                            $loan_period = date_add(date_create($visitorRecordKeysData['created_at']), date_interval_create_from_date_string($visitorRecordKeysData['loan_period']));
-                            $data[$d]['date_out'] = date_format($loan_period, 'd/m/Y');
-                            $data[$d]['time_out'] = date_format($loan_period, 'h:ia');
-                            $data[$d]['overdue'] = 'yes';
-                            $data[$d]['loan_length'] =  $visitorRecordKeysData['loan_period'];
-                        }else{
-                            $data[$d]['key_loan'] = false;
-                            
-                            $data[$d]['person_type'] = 'n/a';
-                            $data[$d]['name'] = 'n/a';
-                            $data[$d]['company'] = 'n/a';
-                            $data[$d]['date_out'] = 'n/a';
-                            $data[$d]['time_out'] = 'n/a';
-                            $data[$d]['overdue'] = 'n/a';
-                            $data[$d]['loan_length'] = 'n/a';
                         }
-                        $data[$d]['created_at'] = $result->created_at;
-                        
-                        $d++;
                     }
                 }
                 
@@ -441,12 +449,6 @@ class KeyController extends BaseController
                         ->orLike('visitors.last_name', $body->name)
                         ->groupEnd();
                 }
-
-                // if (!empty($body->name)) {
-                //     $name = explode(' ', $body->name);
-                //     $conditions = "(visitors.first_name LIKE '%" . $name[0] . "%' OR visitors.last_name LIKE '%" . $name[1] . "%')";
-                //     $visitorRecordKeys->where($conditions);
-                // }
 
                 if (!empty($body->company_name)) {
                     $visitorRecordKeys->where('visitors.company_name', $body->company_name);
